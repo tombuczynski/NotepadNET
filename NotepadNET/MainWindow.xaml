@@ -1,0 +1,74 @@
+﻿<Window x:Class="Notepad.NET.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notepad.NET"
+        mc:Ignorable="d"
+        Title="Notepad.NET" Height="450" Width="800" ResizeMode="CanResizeWithGrip" Closing="Window_Closing">
+    <Window.Resources>
+        <Image x:Key="IconClock" Source="img/clock_0220.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconNew" Source="img/new_document_lined_24.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconOpen" Source="img/open_document_24.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconSave" Source="img/file_yellow_save.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconSaveAs" Source="img/file_yellow_save_ellipsis.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconPrint" Source="img/print_24.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconExit" Source="img/exit.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconFont" Source="img/text_size.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconBkg" Source="img/rectangle_yellow.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconSelAll" Source="img/select_all.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconUndo" Source="img/undo_24.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconRedo" Source="img/redo_24.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconCopy" Source="img/copy_clipboard_lined_24.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconCut" Source="img/cut_clipboard_24.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconPaste" Source="img/paste_clipboard_24.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconDel" Source="img/delete_24.png" x:Shared="false" Width="16" Height="16"/>
+
+    </Window.Resources>
+    <DockPanel FocusManager.FocusedElement="{Binding ElementName=Editor}">
+        <Menu x:Name="MainMenu" IsMainMenu="True" DockPanel.Dock="Top">
+            <MenuItem Header="_Plik">
+                <MenuItem Header="_Nowy" InputGestureText="Ctrl+N" Click="MenuItem_New_Click" Icon="{StaticResource IconNew}"/>
+                <MenuItem Header="_Otwórz..." InputGestureText="Ctrl+O" Click="MenuItem_Open_Click" Icon="{StaticResource IconOpen}"/>
+                <MenuItem Header="Zapi_sz" InputGestureText="Ctrl+S" Click="MenuItem_Save_Click" Icon="{StaticResource IconSave}"/>
+                <MenuItem Header="Z_apisz jako..." Click="MenuItem_SaveAs_Click" Icon="{StaticResource IconSaveAs}"/>
+                <Separator/>
+                <MenuItem Header="_Drukuj..." InputGestureText="Ctrl+P" Click="MenuItem_Print_Click" Icon="{StaticResource IconPrint}"/>
+                <Separator/>
+                <MenuItem Header="Zakoń_cz" InputGestureText="Alt+F4" Click="MenuItem_Close_Click" Icon="{StaticResource IconExit}"/>
+            </MenuItem>
+            <MenuItem Header="_Edycja" SubmenuOpened="MenuItem_Edit_SubmenuOpened">
+                <MenuItem x:Name="MenuItem_Undo" Header="_Cofnij" InputGestureText="Ctrl+Z" IsEnabled="False" Click="MenuItem_Undo_Click" Icon="{StaticResource IconUndo}"/>
+                <MenuItem x:Name="MenuItem_Redo" Header="_Powtórz" InputGestureText="Ctrl+Y" IsEnabled="False" Click="MenuItem_Redo_Click" Icon="{StaticResource IconRedo}"/>
+                <Separator/>
+                <MenuItem x:Name="MenuItem_Cut" Header="_Wytnij" InputGestureText="Ctrl+X" IsEnabled="False" Click="MenuItem_Cut_Click" Icon="{StaticResource IconCut}"/>
+                <MenuItem x:Name="MenuItem_Copy" Header="_Kopiuj" InputGestureText="Ctrl+C" IsEnabled="False" Click="MenuItem_Copy_Click" Icon="{StaticResource IconCopy}"/>
+                <MenuItem x:Name="MenuItem_Paste" Header="Wkl_ej" InputGestureText="Ctrl+V" IsEnabled="False" Click="MenuItem_Paste_Click" Icon="{StaticResource IconPaste}"/>
+                <MenuItem x:Name="MenuItem_Del" Header="_Usuń" InputGestureText="Del" IsEnabled="False" Click="MenuItem_Del_Click" Icon="{StaticResource IconDel}"/>
+                <Separator/>
+                <MenuItem Header="Zaznacz w_szystko" InputGestureText="Ctrl+A" Click="MenuItem_SelAll_Click" Icon="{StaticResource IconSelAll}"/>
+                <MenuItem Header="Godzina/_data" InputGestureText="F5" Click="MenuItem_DateTime_Click" Icon="{StaticResource IconClock}"/>
+            </MenuItem>
+            <MenuItem Header="_Widok">
+                <MenuItem Header="_Zawijanie wierszy" IsCheckable="True" IsChecked="True" Click="MenuItem_Wrapping_Click"/>
+                <MenuItem Header="_Czcionka..." Click="MenuItem_Font_Click" Icon="{StaticResource IconFont}"/>
+                <MenuItem Header="_Kolor tła..." Click="MenuItem_BackgroundColor_Click" Icon="{StaticResource IconBkg}"/>
+                <Separator/>
+                <MenuItem Header="Pasek _narzędzi" IsCheckable="True" IsChecked="True" Click="MenuItem_Toolbar_Click"/>
+                <MenuItem Header="Pasek _stanu" IsCheckable="True" IsChecked="True" Click="MenuItem_Statusbar_Click"/>
+            </MenuItem>
+        </Menu>
+        <ToolBarTray x:Name="MainToolBar" DockPanel.Dock="Top">
+            <ToolBar>
+                <Button ToolTip="Nowy" Content="{StaticResource IconNew}" 
+                        Click="MenuItem_New_Click" ToolBar.OverflowMode="AsNeeded"/>
+            </ToolBar>
+        </ToolBarTray>
+        <StatusBar x:Name="MainStatusBar" DockPanel.Dock="Bottom">
+            <TextBlock x:Name="StatusBarTextField" Text=" "/>
+        </StatusBar>
+        <TextBox x:Name="Editor" AcceptsReturn="True" TextWrapping="Wrap" 
+                 VerticalScrollBarVisibility="Auto"
+                 HorizontalScrollBarVisibility="Auto" TextChanged="Editor_TextChanged"/>
+    </DockPanel>
+</Window>

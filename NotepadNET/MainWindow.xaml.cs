@@ -1,0 +1,304 @@
+﻿using Microsoft.Win32;
+using System.IO;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using Tomproj.WPFUtils;
+
+namespace Notepad.NET
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        private OpenFileDialog OpenFileDlg;
+        private SaveFileDialog SaveFileDlg;
+        private string TextFilePath = null;
+        private bool fTextModified = false;
+        private Encoding TextEncoding = Encoding.GetEncoding(1250);
+
+        private bool TextModified { get => fTextModified;
+            set {
+                fTextModified = value;
+            }
+        }
+
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            OpenFileDlg = new OpenFileDialog
+            {
+                DefaultExt = "txt",
+                Filter =
+                "Pliki tekstowe (*.txt)|*.txt" +
+                "|Pliki XML (*.xml)|*.xml" +
+                "|Pliki źródłowe C# (*.cs)|*.cs" +
+                "|Wszystkie pliki (*.*)|*.*",
+                FilterIndex = 1,
+                Title = "Otwieranie pliku"
+            };
+
+            SaveFileDlg = new SaveFileDialog
+            {
+                DefaultExt = OpenFileDlg.DefaultExt,
+                Filter = OpenFileDlg.Filter,
+                FilterIndex = 1,
+                Title = "Zapisywanie pliku"
+            };
+
+            UpdateStatusBar();
+        }
+
+        private void LoadFile()
+        {
+            Editor.Text = File.ReadAllText(TextFilePath, TextEncoding);
+            UpdateStatusBar();
+            TextModified = false;
+        }
+
+        private void SaveFile()
+        {
+            File.WriteAllText(TextFilePath, Editor.Text, TextEncoding);
+            UpdateStatusBar();
+            TextModified = false;
+        }
+
+        private void UpdateStatusBar()
+        {
+            string textField = "[Brak pliku]";
+
+            if (!string.IsNullOrEmpty(TextFilePath))
+            {
+                textField = Path.GetFileName(TextFilePath);
+            }
+
+            if (StatusBarTextField.Text != textField)
+            {
+                StatusBarTextField.Text = textField;
+            }
+        }
+
+        private bool? FileSaveAskDialog()
+        {
+            MessageBoxResult result =
+            MessageBox.Show("Zapisać zmiany w pliku ?", this.Title + " - zmiany w tekście",
+                MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+
+            switch (result)
+            {
+                case MessageBoxResult.Cancel:
+                    break;
+                case MessageBoxResult.Yes:
+                    return true;
+                case MessageBoxResult.No:
+                    return false; ;
+                default:
+                    break;
+            }
+
+            return null;
+        }
+
+        private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(TextFilePath))
+            {
+                OpenFileDlg.InitialDirectory = Path.GetDirectoryName(TextFilePath);
+                OpenFileDlg.FileName = Path.GetFileName(TextFilePath);
+
+            }
+
+            bool? result = OpenFileDlg.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                TextFilePath = OpenFileDlg.FileName;
+                LoadFile();
+            }
+
+        }
+
+        private void MenuItem_Save_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(TextFilePath))
+            {
+                SaveFile();
+            }
+            else
+            {
+                MenuItem_SaveAs_Click(sender, e);
+            }
+
+        }
+
+        private void MenuItem_SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(TextFilePath))
+            {
+                SaveFileDlg.InitialDirectory = Path.GetDirectoryName(TextFilePath);
+                SaveFileDlg.FileName = Path.GetFileName(TextFilePath);
+
+            }
+
+            bool? result = SaveFileDlg.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                TextFilePath = SaveFileDlg.FileName;
+                SaveFile();
+            }
+        }
+
+        private void MenuItem_Close_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MenuItem_New_Click(object sender, RoutedEventArgs e)
+        {
+            if (ChangesAccepted())
+            {
+                Editor.Clear();
+                TextFilePath = null;
+                TextModified = false;
+                UpdateStatusBar();
+            }
+        }
+
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = !ChangesAccepted();
+        }
+
+        private bool ChangesAccepted()
+        {
+            if (TextModified)
+            {
+                bool? dlgResult = FileSaveAskDialog();
+
+                if (dlgResult == null)
+                {
+                    return false;
+                }
+                else if (dlgResult.Value)
+                {
+                    MenuItem_Save_Click(null, null);
+                }
+            }
+
+            return true;
+        }
+
+        private void Editor_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            TextModified = true;
+        }
+
+        private void MenuItem_Edit_SubmenuOpened(object sender, RoutedEventArgs e)
+        {
+            MenuItem_Undo.IsEnabled = Editor.CanUndo;
+            MenuItem_Redo.IsEnabled = Editor.CanRedo;
+            MenuItem_Paste.IsEnabled = Clipboard.ContainsText();
+            MenuItem_Copy.IsEnabled = Editor.SelectionLength > 0;
+            MenuItem_Cut.IsEnabled = Editor.SelectionLength > 0;
+            MenuItem_Del.IsEnabled = Editor.SelectionLength > 0;
+        }
+
+        private void MenuItem_SelAll_Click(object sender, RoutedEventArgs e)
+        {
+            Editor.SelectAll();
+        }
+
+        private void MenuItem_DateTime_Click(object sender, RoutedEventArgs e)
+        {
+            Editor.SelectedText = System.DateTime.Now.ToString();
+            Editor.CaretIndex = Editor.SelectionStart + Editor.SelectionLength;
+        }
+
+        private void MenuItem_Paste_Click(object sender, RoutedEventArgs e)
+        {
+            Editor.Paste();
+        }
+
+        private void MenuItem_Undo_Click(object sender, RoutedEventArgs e)
+        {
+            Editor.Undo();
+        }
+
+        private void MenuItem_Redo_Click(object sender, RoutedEventArgs e)
+        {
+            Editor.Redo();
+        }
+
+        private void MenuItem_Cut_Click(object sender, RoutedEventArgs e)
+        {
+            Editor.Cut();
+        }
+
+        private void MenuItem_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            Editor.Copy();
+        }
+
+        private void MenuItem_Del_Click(object sender, RoutedEventArgs e)
+        {
+            Editor.SelectedText = "";
+        }
+
+        private void MenuItem_Wrapping_Click(object sender, RoutedEventArgs e)
+        {
+            bool isChecked = ((MenuItem)sender).IsChecked;
+
+            Editor.TextWrapping = isChecked ? TextWrapping.Wrap : TextWrapping.NoWrap;
+        }
+
+        private void MenuItem_Toolbar_Click(object sender, RoutedEventArgs e)
+        {
+            bool isChecked = ((MenuItem)sender).IsChecked;
+
+            MainToolBar.Visibility = isChecked ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void MenuItem_Statusbar_Click(object sender, RoutedEventArgs e)
+        {
+            bool isChecked = ((MenuItem)sender).IsChecked;
+
+            MainStatusBar.Visibility = isChecked ? Visibility.Visible : Visibility.Collapsed;
+            this.ResizeMode = isChecked ? ResizeMode.CanResizeWithGrip : ResizeMode.CanResize;
+        }
+
+        private void MenuItem_BackgroundColor_Click(object sender, RoutedEventArgs e)
+        {
+            Color color = Colors.White;
+            if (Editor.Background is SolidColorBrush)
+            {
+                color = ((SolidColorBrush)Editor.Background).Color;
+            }
+
+
+            if (ColorUtils.ChooseColorDlg(ref color))
+            {
+                Editor.Background = new SolidColorBrush(color);
+            }
+        }
+
+        private void MenuItem_Font_Click(object sender, RoutedEventArgs e)
+        {
+            FontUtils.Font font = FontUtils.Font.ExtractFrom(Editor);
+
+            if (FontUtils.ChooseFontDlg(ref font))
+            {
+                font.ApplyTo(Editor);
+            }
+        }
+
+        private void MenuItem_Print_Click(object sender, RoutedEventArgs e)
+        {
+            PrintUtils.PrintText(Editor.Text, FontUtils.Font.ExtractFrom(Editor), Path.GetFileName(TextFilePath));
+        }
+    }
+}

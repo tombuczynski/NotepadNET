@@ -1,8 +1,10 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Media;
 using Tomproj.WPFUtils;
 
@@ -18,8 +20,11 @@ namespace Notepad.NET
         private string TextFilePath = null;
         private bool fTextModified = false;
         private Encoding TextEncoding = Encoding.GetEncoding(1250);
+        private const int WM_CLIPBOARDUPDATE = 0x031D;
 
-        private bool TextModified { get => fTextModified;
+        private bool TextModified
+        {
+            get => fTextModified;
             set {
                 fTextModified = value;
             }
@@ -102,6 +107,11 @@ namespace Notepad.NET
             return null;
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            ToolBarUpdate(true, true, true);
+        }
+
         private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(TextFilePath))
@@ -125,7 +135,7 @@ namespace Notepad.NET
         {
             if (!string.IsNullOrEmpty(TextFilePath))
             {
-                SaveFile();
+               SaveFile();
             }
             else
             {
@@ -196,16 +206,18 @@ namespace Notepad.NET
         private void Editor_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             TextModified = true;
+
+            ToolBarUpdate(false, true, false);
         }
 
         private void MenuItem_Edit_SubmenuOpened(object sender, RoutedEventArgs e)
         {
             MenuItem_Undo.IsEnabled = Editor.CanUndo;
             MenuItem_Redo.IsEnabled = Editor.CanRedo;
-            MenuItem_Paste.IsEnabled = Clipboard.ContainsText();
             MenuItem_Copy.IsEnabled = Editor.SelectionLength > 0;
             MenuItem_Cut.IsEnabled = Editor.SelectionLength > 0;
             MenuItem_Del.IsEnabled = Editor.SelectionLength > 0;
+            MenuItem_Paste.IsEnabled = Clipboard.ContainsText();
         }
 
         private void MenuItem_SelAll_Click(object sender, RoutedEventArgs e)
@@ -299,6 +311,65 @@ namespace Notepad.NET
         private void MenuItem_Print_Click(object sender, RoutedEventArgs e)
         {
             PrintUtils.PrintText(Editor.Text, FontUtils.Font.ExtractFrom(Editor), Path.GetFileName(TextFilePath));
+        }
+
+        private void Editor_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            ToolBarUpdate(true, false, false);
+        }
+
+        private void Window_SourceInitialized(object sender, System.EventArgs e)
+        {
+            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+            source.AddHook(WndProc);
+
+            Win32.AddClipboardFormatListener(source.Handle);
+        }
+
+        IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            // Handle messages...
+
+            if (msg == WM_CLIPBOARDUPDATE)
+            {
+                ClipboardUpdate();
+            }
+
+            return IntPtr.Zero;
+        }
+
+        private void ClipboardUpdate()
+        {
+            ToolBarUpdate(false, false, true);
+        }
+
+        private void ToolBarUpdate(bool selChange, bool textChange, bool clipboardChange)
+        {
+            if (textChange)
+            {
+                if (ToolBarButton_Undo.IsEnabled != Editor.CanUndo)
+                {
+                    ToolBarButton_Undo.IsEnabled = Editor.CanUndo;
+                }
+                if (ToolBarButton_Redo.IsEnabled != Editor.CanRedo)
+                {
+                    ToolBarButton_Redo.IsEnabled = Editor.CanRedo;
+                }
+            }
+
+            if (selChange)
+            {
+                bool s = Editor.SelectionLength > 0;
+
+                ToolBarButton_Copy.IsEnabled = s;
+                ToolBarButton_Cut.IsEnabled = s;
+                ToolBarButton_Del.IsEnabled = s;
+            }
+
+            if (clipboardChange)
+            {
+                ToolBarButton_Paste.IsEnabled = Clipboard.ContainsText();
+            }
         }
     }
 }

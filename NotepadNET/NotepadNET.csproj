@@ -7,7 +7,7 @@
     <ProjectGuid>{6549D229-0A42-4C02-975D-17198F2CE8EB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Notepad.NET</RootNamespace>
-    <AssemblyName>Notepad.NET</AssemblyName>
+    <AssemblyName>NotepadNET</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -63,6 +63,7 @@
     <Compile Include="Utils\ColorUtils.cs" />
     <Compile Include="Utils\FontUtils.cs" />
     <Compile Include="Utils\PrintUtils.cs" />
+    <Compile Include="Utils\Win32.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

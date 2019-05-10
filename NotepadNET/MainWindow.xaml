@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad.NET"
         mc:Ignorable="d"
-        Title="Notepad.NET" Height="450" Width="800" ResizeMode="CanResizeWithGrip" Closing="Window_Closing">
+        Title="Notepad.NET" Height="450" Width="800" ResizeMode="CanResizeWithGrip" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized" Loaded="Window_Loaded">
     <Window.Resources>
         <Image x:Key="IconClock" Source="img/clock_0220.png" x:Shared="false" Width="16" Height="16"/>
         <Image x:Key="IconNew" Source="img/new_document_lined_24.png" x:Shared="false" Width="16" Height="16"/>
@@ -23,8 +23,7 @@
         <Image x:Key="IconCut" Source="img/cut_clipboard_24.png" x:Shared="false" Width="16" Height="16"/>
         <Image x:Key="IconPaste" Source="img/paste_clipboard_24.png" x:Shared="false" Width="16" Height="16"/>
         <Image x:Key="IconDel" Source="img/delete_24.png" x:Shared="false" Width="16" Height="16"/>
-
-    </Window.Resources>
+        <Style x:Key="MenuItemEnabled" TargetType="MenuItem">            <Style.Triggers>                <Trigger Property="IsEnabled" Value="False">                    <Setter Property="Opacity" Value="0.4"></Setter>                </Trigger>            </Style.Triggers>        </Style>        <Style x:Key="ButtonEnabled" TargetType="Button">            <Style.Triggers>                <Trigger Property="IsEnabled" Value="False">                    <Setter Property="Opacity" Value="0.3"></Setter>                </Trigger>            </Style.Triggers>        </Style>    </Window.Resources>
     <DockPanel FocusManager.FocusedElement="{Binding ElementName=Editor}">
         <Menu x:Name="MainMenu" IsMainMenu="True" DockPanel.Dock="Top">
             <MenuItem Header="_Plik">
@@ -38,13 +37,13 @@
                 <MenuItem Header="Zakoń_cz" InputGestureText="Alt+F4" Click="MenuItem_Close_Click" Icon="{StaticResource IconExit}"/>
             </MenuItem>
             <MenuItem Header="_Edycja" SubmenuOpened="MenuItem_Edit_SubmenuOpened">
-                <MenuItem x:Name="MenuItem_Undo" Header="_Cofnij" InputGestureText="Ctrl+Z" IsEnabled="False" Click="MenuItem_Undo_Click" Icon="{StaticResource IconUndo}"/>
-                <MenuItem x:Name="MenuItem_Redo" Header="_Powtórz" InputGestureText="Ctrl+Y" IsEnabled="False" Click="MenuItem_Redo_Click" Icon="{StaticResource IconRedo}"/>
+                <MenuItem x:Name="MenuItem_Undo" Header="_Cofnij" InputGestureText="Ctrl+Z" IsEnabled="False" Click="MenuItem_Undo_Click" Icon="{StaticResource IconUndo}" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_Redo" Header="_Powtórz" InputGestureText="Ctrl+Y" IsEnabled="False" Click="MenuItem_Redo_Click" Icon="{StaticResource IconRedo}" Style="{StaticResource MenuItemEnabled}"/>
                 <Separator/>
-                <MenuItem x:Name="MenuItem_Cut" Header="_Wytnij" InputGestureText="Ctrl+X" IsEnabled="False" Click="MenuItem_Cut_Click" Icon="{StaticResource IconCut}"/>
-                <MenuItem x:Name="MenuItem_Copy" Header="_Kopiuj" InputGestureText="Ctrl+C" IsEnabled="False" Click="MenuItem_Copy_Click" Icon="{StaticResource IconCopy}"/>
-                <MenuItem x:Name="MenuItem_Paste" Header="Wkl_ej" InputGestureText="Ctrl+V" IsEnabled="False" Click="MenuItem_Paste_Click" Icon="{StaticResource IconPaste}"/>
-                <MenuItem x:Name="MenuItem_Del" Header="_Usuń" InputGestureText="Del" IsEnabled="False" Click="MenuItem_Del_Click" Icon="{StaticResource IconDel}"/>
+                <MenuItem x:Name="MenuItem_Cut" Header="_Wytnij" InputGestureText="Ctrl+X" IsEnabled="False" Click="MenuItem_Cut_Click" Icon="{StaticResource IconCut}" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_Copy" Header="_Kopiuj" InputGestureText="Ctrl+C" IsEnabled="False" Click="MenuItem_Copy_Click" Icon="{StaticResource IconCopy}" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_Paste" Header="Wkl_ej" InputGestureText="Ctrl+V" IsEnabled="False" Click="MenuItem_Paste_Click" Icon="{StaticResource IconPaste}" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_Del" Header="_Usuń" InputGestureText="Del" IsEnabled="False" Click="MenuItem_Del_Click" Icon="{StaticResource IconDel}" Style="{StaticResource MenuItemEnabled}"/>
                 <Separator/>
                 <MenuItem Header="Zaznacz w_szystko" InputGestureText="Ctrl+A" Click="MenuItem_SelAll_Click" Icon="{StaticResource IconSelAll}"/>
                 <MenuItem Header="Godzina/_data" InputGestureText="F5" Click="MenuItem_DateTime_Click" Icon="{StaticResource IconClock}"/>
@@ -62,6 +61,34 @@
             <ToolBar>
                 <Button ToolTip="Nowy" Content="{StaticResource IconNew}" 
                         Click="MenuItem_New_Click" ToolBar.OverflowMode="AsNeeded"/>
+                <Button ToolTip="Otwórz" Content="{StaticResource IconOpen}" 
+                        Click="MenuItem_Open_Click" ToolBar.OverflowMode="AsNeeded"/>
+                <Button ToolTip="Zapisz" Content="{StaticResource IconSave}" 
+                        Click="MenuItem_Save_Click" ToolBar.OverflowMode="Never"/>
+                <Separator/>
+                <Button ToolTip="Drukuj" Content="{StaticResource IconPrint}" 
+                        Click="MenuItem_Print_Click" ToolBar.OverflowMode="AsNeeded"/>
+            </ToolBar>
+            <ToolBar>
+                <Button x:Name="ToolBarButton_Undo" ToolTip="Cofnij" Content="{StaticResource IconUndo}" Style="{StaticResource ButtonEnabled}"
+                        Click="MenuItem_Undo_Click" ToolBar.OverflowMode="Never"/>
+                <Button x:Name="ToolBarButton_Redo" ToolTip="Powtórz" Content="{StaticResource IconRedo}" Style="{StaticResource ButtonEnabled}"
+                        Click="MenuItem_Redo_Click" ToolBar.OverflowMode="Never"/>
+                <Separator/>
+                <Button x:Name="ToolBarButton_Cut" ToolTip="Wytnij" Content="{StaticResource IconCut}" Style="{StaticResource ButtonEnabled}"
+                        Click="MenuItem_Cut_Click" ToolBar.OverflowMode="AsNeeded"/>
+                <Button x:Name="ToolBarButton_Copy" ToolTip="Kopiuj" Content="{StaticResource IconCopy}" Style="{StaticResource ButtonEnabled}"
+                        Click="MenuItem_Copy_Click" ToolBar.OverflowMode="AsNeeded"/>
+                <Button x:Name="ToolBarButton_Paste" ToolTip="Wklej" Content="{StaticResource IconPaste}" Style="{StaticResource ButtonEnabled}"
+                        Click="MenuItem_Paste_Click" ToolBar.OverflowMode="AsNeeded"/>
+                <Button x:Name="ToolBarButton_Del" ToolTip="Usuń" Content="{StaticResource IconDel}" Style="{StaticResource ButtonEnabled}"
+                        Click="MenuItem_Del_Click" ToolBar.OverflowMode="AsNeeded"/>
+            </ToolBar>
+            <ToolBar>
+                <Button ToolTip="Czcionka" Content="{StaticResource IconFont}" 
+                        Click="MenuItem_Font_Click" ToolBar.OverflowMode="Never"/>
+                <Button ToolTip="Kolor tła" Content="{StaticResource IconBkg}" 
+                        Click="MenuItem_BackgroundColor_Click" ToolBar.OverflowMode="AsNeeded"/>
             </ToolBar>
         </ToolBarTray>
         <StatusBar x:Name="MainStatusBar" DockPanel.Dock="Bottom">
@@ -69,6 +96,6 @@
         </StatusBar>
         <TextBox x:Name="Editor" AcceptsReturn="True" TextWrapping="Wrap" 
                  VerticalScrollBarVisibility="Auto"
-                 HorizontalScrollBarVisibility="Auto" TextChanged="Editor_TextChanged"/>
+                 HorizontalScrollBarVisibility="Auto" TextChanged="Editor_TextChanged" SelectionChanged="Editor_SelectionChanged"/>
     </DockPanel>
 </Window>

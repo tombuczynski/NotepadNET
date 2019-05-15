@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad.NET"
         mc:Ignorable="d"
-        Title="Notepad.NET" Height="450" Width="800" ResizeMode="CanResizeWithGrip" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized" Loaded="Window_Loaded">
+        Title="Notepad.NET" Height="450" Width="800" ResizeMode="CanResizeWithGrip" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized" Loaded="Window_Loaded" PreviewKeyDown="Window_PreviewKeyDown">
     <Window.Resources>
         <Image x:Key="IconClock" Source="img/clock_0220.png" x:Shared="false" Width="16" Height="16"/>
         <Image x:Key="IconNew" Source="img/new_document_lined_24.png" x:Shared="false" Width="16" Height="16"/>
@@ -23,7 +23,21 @@
         <Image x:Key="IconCut" Source="img/cut_clipboard_24.png" x:Shared="false" Width="16" Height="16"/>
         <Image x:Key="IconPaste" Source="img/paste_clipboard_24.png" x:Shared="false" Width="16" Height="16"/>
         <Image x:Key="IconDel" Source="img/delete_24.png" x:Shared="false" Width="16" Height="16"/>
-        <Style x:Key="MenuItemEnabled" TargetType="MenuItem">            <Style.Triggers>                <Trigger Property="IsEnabled" Value="False">                    <Setter Property="Opacity" Value="0.4"></Setter>                </Trigger>            </Style.Triggers>        </Style>        <Style x:Key="ButtonEnabled" TargetType="Button">            <Style.Triggers>                <Trigger Property="IsEnabled" Value="False">                    <Setter Property="Opacity" Value="0.3"></Setter>                </Trigger>            </Style.Triggers>        </Style>    </Window.Resources>
+        <Style x:Key="MenuItemEnabled" TargetType="MenuItem">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.4"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ButtonEnabled" TargetType="Button">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.3"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <DockPanel FocusManager.FocusedElement="{Binding ElementName=Editor}">
         <Menu x:Name="MainMenu" IsMainMenu="True" DockPanel.Dock="Top">
             <MenuItem Header="_Plik">

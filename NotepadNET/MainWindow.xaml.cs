@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Tomproj.WPFUtils;
@@ -370,6 +371,50 @@ namespace Notepad.NET
             {
                 ToolBarButton_Paste.IsEnabled = Clipboard.ContainsText();
             }
+        }
+
+        private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                switch (e.Key)
+                {
+                    case Key.N:
+                        MenuItem_New_Click(sender, null);
+                        break;
+
+                    case Key.O:
+                        MenuItem_Open_Click(sender, null);
+                        break;
+
+                    case Key.S:
+                        MenuItem_Save_Click(sender, null);
+                        break;
+
+                    case Key.P:
+                        MenuItem_Print_Click(sender, null);
+                        break;
+
+                    default:
+                        e.Handled = false;
+                        return;
+                }
+            }
+            else
+            {
+                switch (e.Key)
+                {
+                    case Key.F5:
+                        MenuItem_DateTime_Click(sender, null);
+                        break;
+
+                    default:
+                        e.Handled = false;
+                        return;
+                }
+            }
+
+            e.Handled = true;
         }
     }
 }

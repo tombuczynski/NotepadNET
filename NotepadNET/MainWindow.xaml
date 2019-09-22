@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad.NET"
         mc:Ignorable="d"
-        Title="Notepad.NET" Height="450" Width="800" ResizeMode="CanResizeWithGrip" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized" Loaded="Window_Loaded" PreviewKeyDown="Window_PreviewKeyDown">
+        Title="Notepad.NET" Height="600" Width="800" ResizeMode="CanResizeWithGrip" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized" Loaded="Window_Loaded" PreviewKeyDown="Window_PreviewKeyDown" Icon="MainIcon.ico">
     <Window.Resources>
         <Image x:Key="IconClock" Source="img/clock_0220.png" x:Shared="false" Width="16" Height="16"/>
         <Image x:Key="IconNew" Source="img/new_document_lined_24.png" x:Shared="false" Width="16" Height="16"/>
@@ -39,7 +39,7 @@
         </Style>
     </Window.Resources>
     <DockPanel FocusManager.FocusedElement="{Binding ElementName=Editor}">
-        <Menu x:Name="MainMenu" IsMainMenu="True" DockPanel.Dock="Top">
+        <Menu x:Name="MainMenu" IsMainMenu="True" DockPanel.Dock="Top" Visibility="Collapsed">
             <MenuItem Header="_Plik">
                 <MenuItem Header="_Nowy" InputGestureText="Ctrl+N" Click="MenuItem_New_Click" Icon="{StaticResource IconNew}"/>
                 <MenuItem Header="_Otwórz..." InputGestureText="Ctrl+O" Click="MenuItem_Open_Click" Icon="{StaticResource IconOpen}"/>
@@ -71,7 +71,7 @@
                 <MenuItem Header="Pasek _stanu" IsCheckable="True" IsChecked="True" Click="MenuItem_Statusbar_Click"/>
             </MenuItem>
         </Menu>
-        <ToolBarTray x:Name="MainToolBar" DockPanel.Dock="Top">
+        <ToolBarTray x:Name="MainToolBar" DockPanel.Dock="Top" Visibility="Collapsed">
             <ToolBar>
                 <Button ToolTip="Nowy" Content="{StaticResource IconNew}" 
                         Click="MenuItem_New_Click" ToolBar.OverflowMode="AsNeeded"/>
@@ -105,6 +105,62 @@
                         Click="MenuItem_BackgroundColor_Click" ToolBar.OverflowMode="AsNeeded"/>
             </ToolBar>
         </ToolBarTray>
+        <Ribbon DockPanel.Dock="Top" Visibility="Visible">
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu SmallImageSource="img\file_yellow_hierarchy1_expanded.png" ToolTip="Plik" KeyTip="P">
+                    <RibbonApplicationMenuItem  ImageSource="img/new_document_lined_24.png" 
+                                                Header="Nowy" KeyTip="N" ToolTip="Ctrl+N"
+                                                Click="MenuItem_New_Click"/>
+                    <RibbonApplicationMenuItem  ImageSource="img/open_document_24.png" 
+                                                Header="Otwórz..." KeyTip="O" ToolTip="Ctrl+O"
+                                                Click="MenuItem_Open_Click"/>
+                    <RibbonApplicationMenuItem  ImageSource="img/file_yellow_save.png" 
+                                                Header="Zapisz" KeyTip="S" ToolTip="Ctrl+S"
+                                                Click="MenuItem_Save_Click"/>
+                    <RibbonApplicationMenuItem  ImageSource="img/file_yellow_save_ellipsis.png" 
+                                                Header="Zapisz jako..." KeyTip="A"
+                                                Click="MenuItem_SaveAs_Click"/>
+                    <RibbonSeparator/>
+                    <RibbonApplicationMenuItem  ImageSource="img/print_24.png" 
+                                                Header="Drukuj..." KeyTip="D" ToolTip="Ctrl+P"
+                                                Click="MenuItem_Print_Click"/>
+                    <RibbonApplicationMenu.AuxiliaryPaneContent>
+                        <StackPanel Margin="5" >
+                            <TextBlock Text="Ostatnie pliki:" FontWeight="Bold" />
+                            <ListBox Margin="10,0,0,0" BorderThickness="0" Background="Transparent" >
+                                <ListBoxItem>Plik1.txt</ListBoxItem>
+                                <ListBoxItem>Plik2.txt</ListBoxItem>
+                                <ListBoxItem>Plik3.txt</ListBoxItem>
+                                <ListBoxItem>Plik4.txt</ListBoxItem>
+                                <ListBoxItem>Plik5.txt</ListBoxItem>
+                            </ListBox>
+                        </StackPanel>
+                    </RibbonApplicationMenu.AuxiliaryPaneContent>
+                    <RibbonApplicationMenu.FooterPaneContent>
+                        <DockPanel LastChildFill="False">
+                            <RibbonButton Click="MenuItem_Close_Click"
+                                     Label="Zakończ"
+                                     ToolTipTitle="Alt+F4"
+                                     ToolTipDescription="Zamknij Notepad.NET"     
+                                     SmallImageSource="img/exit.png"
+                                     KeyTip="C"
+                                     DockPanel.Dock="Right"
+                                     Margin="2"
+                                     BorderBrush="#B8114EAF" />
+                        </DockPanel>
+                    </RibbonApplicationMenu.FooterPaneContent>
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+            <Ribbon.QuickAccessToolBar>
+                <RibbonQuickAccessToolBar>
+                    <RibbonButton Click="MenuItem_Save_Click" ToolTip="Zapisz (Ctrl+S)" KeyTip="S" SmallImageSource="img/file_yellow_save.png" />
+                    <RibbonButton Click="MenuItem_Undo_Click" ToolTip="Cofnij (Ctrl+Z)" KeyTip="C" SmallImageSource="img/undo_24.png" />
+                    <RibbonSplitButton ToolTipTitle="Widok" KeyTip="W" SmallImageSource="img/rectangle_yellow.png">
+                        <RibbonSplitMenuItem Header="AAA" ToolTipTitle="BBB" ImageSource="img/rectangle_yellow.png"/>
+                    </RibbonSplitButton>
+                </RibbonQuickAccessToolBar>
+            </Ribbon.QuickAccessToolBar>
+        </Ribbon>
         <StatusBar x:Name="MainStatusBar" DockPanel.Dock="Bottom">
             <TextBlock x:Name="StatusBarTextField" Text=" "/>
         </StatusBar>

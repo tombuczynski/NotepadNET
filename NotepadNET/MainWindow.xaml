@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad.NET"
+        xmlns:p="clr-namespace:Notepad.NET.Properties"
         mc:Ignorable="d"
         Title="Notepad.NET" Height="450" Width="800" ResizeMode="CanResizeWithGrip" Closing="Window_Closing" SourceInitialized="Window_SourceInitialized" Loaded="Window_Loaded" PreviewKeyDown="Window_PreviewKeyDown">
     <Window.Resources>
@@ -40,73 +41,80 @@
     </Window.Resources>
     <DockPanel FocusManager.FocusedElement="{Binding ElementName=Editor}">
         <Menu x:Name="MainMenu" IsMainMenu="True" DockPanel.Dock="Top">
-            <MenuItem Header="_Plik">
-                <MenuItem Header="_Nowy" InputGestureText="Ctrl+N" Click="MenuItem_New_Click" Icon="{StaticResource IconNew}"/>
-                <MenuItem Header="_Otwórz..." InputGestureText="Ctrl+O" Click="MenuItem_Open_Click" Icon="{StaticResource IconOpen}"/>
-                <MenuItem Header="Zapi_sz" InputGestureText="Ctrl+S" Click="MenuItem_Save_Click" Icon="{StaticResource IconSave}"/>
-                <MenuItem Header="Z_apisz jako..." Click="MenuItem_SaveAs_Click" Icon="{StaticResource IconSaveAs}"/>
+            <MenuItem Header="{x:Static p:Resources.MenuFile}">
+                <MenuItem Header="{x:Static p:Resources.MenuNew}" InputGestureText="Ctrl+N" Click="MenuItem_New_Click" Icon="{StaticResource IconNew}"/>
+                <MenuItem Header="{x:Static p:Resources.MenuOpen}" InputGestureText="Ctrl+O" Click="MenuItem_Open_Click" Icon="{StaticResource IconOpen}"/>
+                <MenuItem Header="{x:Static p:Resources.MenuSave}" InputGestureText="Ctrl+S" Click="MenuItem_Save_Click" Icon="{StaticResource IconSave}"/>
+                <MenuItem Header="{x:Static p:Resources.MenuSaveAs}" Click="MenuItem_SaveAs_Click" Icon="{StaticResource IconSaveAs}"/>
                 <Separator/>
-                <MenuItem Header="_Drukuj..." InputGestureText="Ctrl+P" Click="MenuItem_Print_Click" Icon="{StaticResource IconPrint}"/>
+                <MenuItem Header="{x:Static p:Resources.MenuPrint}" InputGestureText="Ctrl+P" Click="MenuItem_Print_Click" Icon="{StaticResource IconPrint}"/>
                 <Separator/>
-                <MenuItem Header="Zakoń_cz" InputGestureText="Alt+F4" Click="MenuItem_Close_Click" Icon="{StaticResource IconExit}"/>
+                <MenuItem Header="{x:Static p:Resources.MenuExit}" InputGestureText="Alt+F4" Click="MenuItem_Close_Click" Icon="{StaticResource IconExit}"/>
             </MenuItem>
-            <MenuItem Header="_Edycja" SubmenuOpened="MenuItem_Edit_SubmenuOpened">
-                <MenuItem x:Name="MenuItem_Undo" Header="_Cofnij" InputGestureText="Ctrl+Z" IsEnabled="False" Click="MenuItem_Undo_Click" Icon="{StaticResource IconUndo}" Style="{StaticResource MenuItemEnabled}"/>
-                <MenuItem x:Name="MenuItem_Redo" Header="_Powtórz" InputGestureText="Ctrl+Y" IsEnabled="False" Click="MenuItem_Redo_Click" Icon="{StaticResource IconRedo}" Style="{StaticResource MenuItemEnabled}"/>
+            <MenuItem Header="{x:Static p:Resources.MenuEdit}" SubmenuOpened="MenuItem_Edit_SubmenuOpened">
+                <MenuItem x:Name="MenuItem_Undo" Header="{x:Static p:Resources.MenuUndo}" InputGestureText="Ctrl+Z" IsEnabled="False" Click="MenuItem_Undo_Click" Icon="{StaticResource IconUndo}" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_Redo" Header="{x:Static p:Resources.MenuRedo}" InputGestureText="Ctrl+Y" IsEnabled="False" Click="MenuItem_Redo_Click" Icon="{StaticResource IconRedo}" Style="{StaticResource MenuItemEnabled}"/>
                 <Separator/>
-                <MenuItem x:Name="MenuItem_Cut" Header="_Wytnij" InputGestureText="Ctrl+X" IsEnabled="False" Click="MenuItem_Cut_Click" Icon="{StaticResource IconCut}" Style="{StaticResource MenuItemEnabled}"/>
-                <MenuItem x:Name="MenuItem_Copy" Header="_Kopiuj" InputGestureText="Ctrl+C" IsEnabled="False" Click="MenuItem_Copy_Click" Icon="{StaticResource IconCopy}" Style="{StaticResource MenuItemEnabled}"/>
-                <MenuItem x:Name="MenuItem_Paste" Header="Wkl_ej" InputGestureText="Ctrl+V" IsEnabled="False" Click="MenuItem_Paste_Click" Icon="{StaticResource IconPaste}" Style="{StaticResource MenuItemEnabled}"/>
-                <MenuItem x:Name="MenuItem_Del" Header="_Usuń" InputGestureText="Del" IsEnabled="False" Click="MenuItem_Del_Click" Icon="{StaticResource IconDel}" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_Cut" Header="{x:Static p:Resources.MenuCut}" InputGestureText="Ctrl+X" IsEnabled="False" Click="MenuItem_Cut_Click" Icon="{StaticResource IconCut}" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_Copy" Header="{x:Static p:Resources.MenuCopy}" InputGestureText="Ctrl+C" IsEnabled="False" Click="MenuItem_Copy_Click" Icon="{StaticResource IconCopy}" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_Paste" Header="{x:Static p:Resources.MenuPaste}" InputGestureText="Ctrl+V" IsEnabled="False" Click="MenuItem_Paste_Click" Icon="{StaticResource IconPaste}" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_Del" Header="{x:Static p:Resources.MenuDel}" InputGestureText="Del" IsEnabled="False" Click="MenuItem_Del_Click" Icon="{StaticResource IconDel}" Style="{StaticResource MenuItemEnabled}"/>
                 <Separator/>
-                <MenuItem Header="Zaznacz w_szystko" InputGestureText="Ctrl+A" Click="MenuItem_SelAll_Click" Icon="{StaticResource IconSelAll}"/>
-                <MenuItem Header="Godzina/_data" InputGestureText="F5" Click="MenuItem_DateTime_Click" Icon="{StaticResource IconClock}"/>
+                <MenuItem Header="{x:Static p:Resources.MenuSelectAll}" InputGestureText="Ctrl+A" Click="MenuItem_SelAll_Click" Icon="{StaticResource IconSelAll}"/>
+                <MenuItem Header="{x:Static p:Resources.MenuDateTime}" InputGestureText="F5" Click="MenuItem_DateTime_Click" Icon="{StaticResource IconClock}"/>
             </MenuItem>
-            <MenuItem Header="_Widok">
-                <MenuItem Header="_Zawijanie wierszy" IsCheckable="True" IsChecked="True" Click="MenuItem_Wrapping_Click"/>
-                <MenuItem Header="_Czcionka..." Click="MenuItem_Font_Click" Icon="{StaticResource IconFont}"/>
-                <MenuItem Header="_Kolor tła..." Click="MenuItem_BackgroundColor_Click" Icon="{StaticResource IconBkg}"/>
+            <MenuItem Header="{x:Static p:Resources.MenuView}">
+                <MenuItem Header="{x:Static p:Resources.MenuWordWrap}" IsCheckable="True" IsChecked="True" Click="MenuItem_Wrapping_Click"/>
+                <MenuItem Header="{x:Static p:Resources.MenuFont}" Click="MenuItem_Font_Click" Icon="{StaticResource IconFont}"/>
+                <MenuItem Header="{x:Static p:Resources.MenuBkColor}" Click="MenuItem_BackgroundColor_Click" Icon="{StaticResource IconBkg}"/>
                 <Separator/>
-                <MenuItem Header="Pasek _narzędzi" IsCheckable="True" IsChecked="True" Click="MenuItem_Toolbar_Click"/>
-                <MenuItem Header="Pasek _stanu" IsCheckable="True" IsChecked="True" Click="MenuItem_Statusbar_Click"/>
+                <MenuItem Header="{x:Static p:Resources.MenuToolbar}" IsCheckable="True" IsChecked="True" Click="MenuItem_Toolbar_Click"/>
+                <MenuItem Header="{x:Static p:Resources.MenuStatusBar}" IsCheckable="True" IsChecked="True" Click="MenuItem_Statusbar_Click"/>
             </MenuItem>
         </Menu>
         <ToolBarTray x:Name="MainToolBar" DockPanel.Dock="Top">
             <ToolBar>
-                <Button ToolTip="Nowy" Content="{StaticResource IconNew}" 
+                <Button ToolTip="{x:Static p:Resources.ToolbarNew}" Content="{StaticResource IconNew}" 
                         Click="MenuItem_New_Click" ToolBar.OverflowMode="AsNeeded"/>
-                <Button ToolTip="Otwórz" Content="{StaticResource IconOpen}" 
+                <Button ToolTip="{x:Static p:Resources.ToolbarOpen}" Content="{StaticResource IconOpen}" 
                         Click="MenuItem_Open_Click" ToolBar.OverflowMode="AsNeeded"/>
-                <Button ToolTip="Zapisz" Content="{StaticResource IconSave}" 
+                <Button ToolTip="{x:Static p:Resources.ToolbarSave}" Content="{StaticResource IconSave}" 
                         Click="MenuItem_Save_Click" ToolBar.OverflowMode="Never"/>
                 <Separator/>
-                <Button ToolTip="Drukuj" Content="{StaticResource IconPrint}" 
+                <Button ToolTip="{x:Static p:Resources.ToolbarPrint}" Content="{StaticResource IconPrint}" 
                         Click="MenuItem_Print_Click" ToolBar.OverflowMode="AsNeeded"/>
             </ToolBar>
             <ToolBar>
-                <Button x:Name="ToolBarButton_Undo" ToolTip="Cofnij" Content="{StaticResource IconUndo}" Style="{StaticResource ButtonEnabled}"
+                <Button x:Name="ToolBarButton_Undo" ToolTip="{x:Static p:Resources.ToolbarUndo}" Content="{StaticResource IconUndo}" Style="{StaticResource ButtonEnabled}"
                         Click="MenuItem_Undo_Click" ToolBar.OverflowMode="Never"/>
-                <Button x:Name="ToolBarButton_Redo" ToolTip="Powtórz" Content="{StaticResource IconRedo}" Style="{StaticResource ButtonEnabled}"
+                <Button x:Name="ToolBarButton_Redo" ToolTip="{x:Static p:Resources.ToolbarRedo}" Content="{StaticResource IconRedo}" Style="{StaticResource ButtonEnabled}"
                         Click="MenuItem_Redo_Click" ToolBar.OverflowMode="Never"/>
                 <Separator/>
-                <Button x:Name="ToolBarButton_Cut" ToolTip="Wytnij" Content="{StaticResource IconCut}" Style="{StaticResource ButtonEnabled}"
+                <Button x:Name="ToolBarButton_Cut" ToolTip="{x:Static p:Resources.ToolbarCut}" Content="{StaticResource IconCut}" Style="{StaticResource ButtonEnabled}"
                         Click="MenuItem_Cut_Click" ToolBar.OverflowMode="AsNeeded"/>
-                <Button x:Name="ToolBarButton_Copy" ToolTip="Kopiuj" Content="{StaticResource IconCopy}" Style="{StaticResource ButtonEnabled}"
+                <Button x:Name="ToolBarButton_Copy" ToolTip="{x:Static p:Resources.ToolbarCopy}" Content="{StaticResource IconCopy}" Style="{StaticResource ButtonEnabled}"
                         Click="MenuItem_Copy_Click" ToolBar.OverflowMode="AsNeeded"/>
-                <Button x:Name="ToolBarButton_Paste" ToolTip="Wklej" Content="{StaticResource IconPaste}" Style="{StaticResource ButtonEnabled}"
+                <Button x:Name="ToolBarButton_Paste" ToolTip="{x:Static p:Resources.ToolbarPaste}" Content="{StaticResource IconPaste}" Style="{StaticResource ButtonEnabled}"
                         Click="MenuItem_Paste_Click" ToolBar.OverflowMode="AsNeeded"/>
-                <Button x:Name="ToolBarButton_Del" ToolTip="Usuń" Content="{StaticResource IconDel}" Style="{StaticResource ButtonEnabled}"
+                <Button x:Name="ToolBarButton_Del" ToolTip="{x:Static p:Resources.ToolbarDel}" Content="{StaticResource IconDel}" Style="{StaticResource ButtonEnabled}"
                         Click="MenuItem_Del_Click" ToolBar.OverflowMode="AsNeeded"/>
             </ToolBar>
             <ToolBar>
-                <Button ToolTip="Czcionka" Content="{StaticResource IconFont}" 
+                <Button ToolTip="{x:Static p:Resources.ToolbarFont}" Content="{StaticResource IconFont}" 
                         Click="MenuItem_Font_Click" ToolBar.OverflowMode="Never"/>
-                <Button ToolTip="Kolor tła" Content="{StaticResource IconBkg}" 
+                <Button ToolTip="{x:Static p:Resources.ToolbarBkColor}" Content="{StaticResource IconBkg}" 
                         Click="MenuItem_BackgroundColor_Click" ToolBar.OverflowMode="AsNeeded"/>
             </ToolBar>
         </ToolBarTray>
         <StatusBar x:Name="MainStatusBar" DockPanel.Dock="Bottom">
-            <TextBlock x:Name="StatusBarTextField" Text=" "/>
+            <StatusBarItem HorizontalAlignment="Left">
+                <TextBlock x:Name="StatusBarFileName" Text=" "/>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock x:Name="StatusBarModified" Text=" " FontWeight="Bold"/>
+            </StatusBarItem>
+            <Separator HorizontalAlignment="Left"/>
         </StatusBar>
         <TextBox x:Name="Editor" AcceptsReturn="True" TextWrapping="Wrap" 
                  VerticalScrollBarVisibility="Auto"

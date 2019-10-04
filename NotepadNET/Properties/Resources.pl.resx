@@ -118,126 +118,126 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FileFilter" xml:space="preserve">
-    <value>Text Files (*.txt)|*.txt|XML Files (*.xml)|*.xml|C# Source Files (*.cs)|*.cs|All Files (*.*)|*.*</value>
+    <value>Pliki tekstowe (*.txt)|*.txt|Pliki XML (*.xml)|*.xml|Pliki źródłowe C# (*.cs)|*.cs|Wszystkie pliki (*.*)|*.*</value>
   </data>
   <data name="MenuBkColor" xml:space="preserve">
-    <value>_Background Color...</value>
+    <value>_Kolor tła...</value>
   </data>
   <data name="MenuCopy" xml:space="preserve">
-    <value>_Copy</value>
+    <value>_Kopiuj</value>
   </data>
   <data name="MenuCut" xml:space="preserve">
-    <value>Cu_t</value>
+    <value>_Wytnij</value>
   </data>
   <data name="MenuDateTime" xml:space="preserve">
-    <value>Date/_Time</value>
+    <value>_Data/godzina</value>
   </data>
   <data name="MenuDel" xml:space="preserve">
-    <value>_Delete</value>
+    <value>_Usuń</value>
   </data>
   <data name="MenuEdit" xml:space="preserve">
-    <value>_Edit</value>
+    <value>_Edycja</value>
   </data>
   <data name="MenuExit" xml:space="preserve">
-    <value>E_xit</value>
+    <value>Zakoń_cz</value>
   </data>
   <data name="MenuFile" xml:space="preserve">
-    <value>_File</value>
+    <value>_Plik</value>
   </data>
   <data name="MenuFont" xml:space="preserve">
-    <value>_Font...</value>
+    <value>_Czcionka...</value>
   </data>
   <data name="MenuNew" xml:space="preserve">
-    <value>_New</value>
+    <value>_Nowy</value>
   </data>
   <data name="MenuOpen" xml:space="preserve">
-    <value>_Open...</value>
+    <value>_Otwórz...</value>
   </data>
   <data name="MenuPaste" xml:space="preserve">
-    <value>_Paste</value>
+    <value>Wkl_ej</value>
   </data>
   <data name="MenuPrint" xml:space="preserve">
-    <value>_Print...</value>
+    <value>_Drukuj...</value>
   </data>
   <data name="MenuRedo" xml:space="preserve">
-    <value>_Redo</value>
+    <value>_Powtórz</value>
   </data>
   <data name="MenuSave" xml:space="preserve">
-    <value>_Save</value>
+    <value>Zapi_sz</value>
   </data>
   <data name="MenuSaveAs" xml:space="preserve">
-    <value>Save _As...</value>
+    <value>Z_apisz jako...</value>
   </data>
   <data name="MenuSelectAll" xml:space="preserve">
-    <value>Select _All</value>
+    <value>Zaznacz w_szystko</value>
   </data>
   <data name="MenuStatusBar" xml:space="preserve">
-    <value>_Status Bar</value>
+    <value>Pasek _stanu</value>
   </data>
   <data name="MenuToolbar" xml:space="preserve">
-    <value>_Toolbar</value>
+    <value>Pasek _narzędzi</value>
   </data>
   <data name="MenuUndo" xml:space="preserve">
-    <value>_Undo</value>
+    <value>_Cofnij</value>
   </data>
   <data name="MenuView" xml:space="preserve">
-    <value>_View</value>
+    <value>_Widok</value>
   </data>
   <data name="MenuWordWrap" xml:space="preserve">
-    <value>_Word Wrap</value>
+    <value>_Zawijanie wierszy</value>
   </data>
   <data name="MessageFileChanged" xml:space="preserve">
-    <value>Save changes to the file ?</value>
+    <value>Zapisać zmiany w pliku ?</value>
   </data>
   <data name="MessageTextChanged" xml:space="preserve">
-    <value>text modified</value>
+    <value>zmiany w tekście</value>
   </data>
   <data name="NoFile" xml:space="preserve">
-    <value>[No file]</value>
+    <value>[ Bez pliku ]</value>
   </data>
   <data name="OpenFileTitle" xml:space="preserve">
-    <value>Open File</value>
+    <value>Otwieranie pliku</value>
   </data>
   <data name="SaveFileTitle" xml:space="preserve">
-    <value>Save File</value>
+    <value>Zapisywanie pliku</value>
   </data>
   <data name="TextModified" xml:space="preserve">
-    <value>Modified</value>
+    <value>Tekst zmieniony</value>
   </data>
   <data name="ToolbarBkColor" xml:space="preserve">
-    <value>Background Color</value>
+    <value>Kolor tła</value>
   </data>
   <data name="ToolbarCopy" xml:space="preserve">
-    <value>Copy (Ctrl+C)</value>
+    <value>Kopiuj (Ctrl+C)</value>
   </data>
   <data name="ToolbarCut" xml:space="preserve">
-    <value>Cut (Ctrl+X)</value>
+    <value>Wytnij (Ctrl+X)</value>
   </data>
   <data name="ToolbarDel" xml:space="preserve">
-    <value>Delete (Del)</value>
+    <value>Usuń (Del)</value>
   </data>
   <data name="ToolbarFont" xml:space="preserve">
-    <value>Font</value>
+    <value>Czcionka</value>
   </data>
   <data name="ToolbarNew" xml:space="preserve">
-    <value>New (Ctrl+N)</value>
+    <value>Nowy (Ctrl+N)</value>
   </data>
   <data name="ToolbarOpen" xml:space="preserve">
-    <value>Open (Ctrl+O)</value>
+    <value>Otwórz (Ctrl+O)</value>
   </data>
   <data name="ToolbarPaste" xml:space="preserve">
-    <value>Paste (Ctrl+V)</value>
+    <value>Wklej (Ctrl+V)</value>
   </data>
   <data name="ToolbarPrint" xml:space="preserve">
-    <value>Print (Ctrl+P)</value>
+    <value>Drukuj (Ctrl+P)</value>
   </data>
   <data name="ToolbarRedo" xml:space="preserve">
-    <value>Redo (Ctrl+Y)</value>
+    <value>Powtórz (Ctrl+Y)</value>
   </data>
   <data name="ToolbarSave" xml:space="preserve">
-    <value>Save (Ctrl+S)</value>
+    <value>Zapisz (Ctrl+S)</value>
   </data>
   <data name="ToolbarUndo" xml:space="preserve">
-    <value>Undo (Ctrl+Z)</value>
+    <value>Cofnij (Ctrl+Z)</value>
   </data>
 </root>

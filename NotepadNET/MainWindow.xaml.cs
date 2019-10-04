@@ -28,31 +28,31 @@ namespace Notepad.NET
             get => fTextModified;
             set {
                 fTextModified = value;
+                UpdateStatusBar();
             }
         }
 
         public MainWindow()
         {
+           //System.Threading.Thread.CurrentThread.CurrentUICulture = 
+           //     System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
+
             InitializeComponent();
 
             OpenFileDlg = new OpenFileDialog
             {
                 DefaultExt = "txt",
-                Filter =
-                "Pliki tekstowe (*.txt)|*.txt" +
-                "|Pliki XML (*.xml)|*.xml" +
-                "|Pliki źródłowe C# (*.cs)|*.cs" +
-                "|Wszystkie pliki (*.*)|*.*",
+                Filter = Properties.Resources.FileFilter,
                 FilterIndex = 1,
-                Title = "Otwieranie pliku"
+                Title = Properties.Resources.OpenFileTitle
             };
 
             SaveFileDlg = new SaveFileDialog
             {
                 DefaultExt = OpenFileDlg.DefaultExt,
-                Filter = OpenFileDlg.Filter,
+                Filter = Properties.Resources.FileFilter,
                 FilterIndex = 1,
-                Title = "Zapisywanie pliku"
+                Title = Properties.Resources.SaveFileTitle
             };
 
             UpdateStatusBar();
@@ -74,23 +74,30 @@ namespace Notepad.NET
 
         private void UpdateStatusBar()
         {
-            string textField = "[Brak pliku]";
+            string textField1 = Properties.Resources.NoFile;
 
             if (!string.IsNullOrEmpty(TextFilePath))
             {
-                textField = Path.GetFileName(TextFilePath);
+                textField1 = Path.GetFileName(TextFilePath);
             }
 
-            if (StatusBarTextField.Text != textField)
+            if (StatusBarFileName.Text != textField1)
             {
-                StatusBarTextField.Text = textField;
+                StatusBarFileName.Text = textField1;
+            }
+
+            string textField2 = fTextModified ? Properties.Resources.TextModified : "  ";
+
+            if (StatusBarModified.Text != textField2)
+            {
+                StatusBarModified.Text = textField2;
             }
         }
 
         private bool? FileSaveAskDialog()
         {
             MessageBoxResult result =
-            MessageBox.Show("Zapisać zmiany w pliku ?", this.Title + " - zmiany w tekście",
+            MessageBox.Show(Properties.Resources.MessageFileChanged, this.Title + " - " + Properties.Resources.MessageTextChanged,
                 MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
 
             switch (result)
@@ -115,21 +122,23 @@ namespace Notepad.NET
 
         private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(TextFilePath))
+            if (ChangesAccepted())
             {
-                OpenFileDlg.InitialDirectory = Path.GetDirectoryName(TextFilePath);
-                OpenFileDlg.FileName = Path.GetFileName(TextFilePath);
+                if (!string.IsNullOrEmpty(TextFilePath))
+                {
+                    OpenFileDlg.InitialDirectory = Path.GetDirectoryName(TextFilePath);
+                    OpenFileDlg.FileName = Path.GetFileName(TextFilePath);
 
+                }
+
+                bool? result = OpenFileDlg.ShowDialog();
+
+                if (result.HasValue && result.Value)
+                {
+                    TextFilePath = OpenFileDlg.FileName;
+                    LoadFile();
+                }
             }
-
-            bool? result = OpenFileDlg.ShowDialog();
-
-            if (result.HasValue && result.Value)
-            {
-                TextFilePath = OpenFileDlg.FileName;
-                LoadFile();
-            }
-
         }
 
         private void MenuItem_Save_Click(object sender, RoutedEventArgs e)

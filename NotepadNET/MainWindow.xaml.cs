@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Tomproj.WPFUtils;
+using Tomproj.WPFUtils.FindReplace;
 
 namespace Notepad.NET
 {
@@ -16,11 +17,13 @@ namespace Notepad.NET
     /// </summary>
     public partial class MainWindow : Window
     {
-        private OpenFileDialog OpenFileDlg;
-        private SaveFileDialog SaveFileDlg;
+        private readonly OpenFileDialog OpenFileDlg;
+        private readonly SaveFileDialog SaveFileDlg;
         private string TextFilePath = null;
         private bool fTextModified = false;
-        private Encoding TextEncoding = Encoding.GetEncoding(1250);
+        private readonly Encoding TextEncoding = Encoding.GetEncoding(1250);
+        private FindDlg TextFindDlg = null;
+
         private const int WM_CLIPBOARDUPDATE = 0x031D;
 
         private bool TextModified
@@ -228,6 +231,10 @@ namespace Notepad.NET
             MenuItem_Cut.IsEnabled = Editor.SelectionLength > 0;
             MenuItem_Del.IsEnabled = Editor.SelectionLength > 0;
             MenuItem_Paste.IsEnabled = Clipboard.ContainsText();
+
+            MenuItem_Find.IsEnabled = Editor.Text.Length > 0;
+            MenuItem_FindNext.IsEnabled = MenuItem_Find.IsEnabled;
+            MenuItem_FindPrev.IsEnabled = MenuItem_Find.IsEnabled;
         }
 
         private void MenuItem_SelAll_Click(object sender, RoutedEventArgs e)
@@ -323,6 +330,111 @@ namespace Notepad.NET
             PrintUtils.PrintText(Editor.Text, FontUtils.Font.ExtractFrom(Editor), Path.GetFileName(TextFilePath));
         }
 
+        private void MenuItem_Find_Click(object sender, RoutedEventArgs e)
+        {
+            ShowFindDialog("", false, false);
+        }
+
+        private void ShowFindDialog(string text, bool caseSens, bool dirUp)
+        {
+            if (Editor.Text.Length > 0)
+            {
+                if (TextFindDlg != null)
+                {
+                    text = TextFindDlg.TextToFind;
+                    caseSens = TextFindDlg.CaseSensitive;
+                    dirUp = TextFindDlg.DirectionUp;
+                    TextFindDlg.Close();
+                }
+
+                if (Editor.SelectionLength > 0)
+                {
+                    text = Editor.SelectedText;
+                }
+
+                TextFindDlg = new FindDlg
+                {
+                    Owner = this,
+                    TextToFind = text,
+                    CaseSensitive = caseSens,
+                    DirectionUp = dirUp,
+                };
+                TextFindDlg.FindReplace += TextFindDlg_FindReplace;
+
+                TextFindDlg.Show();
+            }
+        }
+
+        private void TextFindDlg_FindReplace(object sender, FindReplaceEventArgs e)
+        {
+
+            int startIndex = -1; 
+
+            switch (e.Mode)
+            {
+                case FindReplaceMode.FindNext:
+                    startIndex = Editor.CaretIndex + Editor.SelectionLength;
+                    startIndex = Editor.Text.IndexOf(e.TextToFind, startIndex, 
+                        e.CaseSensitive ? StringComparison.CurrentCulture :StringComparison.CurrentCultureIgnoreCase);
+                    break;
+
+                case FindReplaceMode.FindPrev:
+                    startIndex = Editor.CaretIndex;
+                    startIndex = Editor.Text.LastIndexOf(e.TextToFind, startIndex,
+                        e.CaseSensitive ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
+                    break;
+
+                case FindReplaceMode.ReplaceNext:
+                    break;
+
+                case FindReplaceMode.ReplaceAll:
+                    break;
+
+                default:
+                    break;
+            }
+
+
+            if (startIndex >= 0)
+            {
+                Editor.Select(startIndex, e.TextToFind.Length);
+                Editor.Focus();
+            }
+        }
+
+        private void MenuItem_FindNext_Click(object sender, RoutedEventArgs e)
+        {
+            FindLastText(sender, false);
+        }
+
+        private void MenuItem_FindPrev_Click(object sender, RoutedEventArgs e)
+        {
+            FindLastText(sender, true);
+        }
+
+        private void FindLastText(object sender, bool dirUp)
+        {
+            if (Editor.Text.Length > 0)
+            {
+                if (TextFindDlg != null)
+                {
+                    FindReplaceEventArgs eventArgs = new FindReplaceEventArgs
+                    {
+                        CaseSensitive = TextFindDlg.CaseSensitive,
+                        TextToFind = TextFindDlg.TextToFind,
+                        TextToReplace = null,
+                        Mode = dirUp ? FindReplaceMode.FindPrev : FindReplaceMode.FindNext,
+                    };
+
+                    TextFindDlg_FindReplace(sender, eventArgs);
+                }
+                else
+                {
+                    ShowFindDialog("", false, dirUp);
+                }
+            }
+        }
+
         private void Editor_SelectionChanged(object sender, RoutedEventArgs e)
         {
             ToolBarUpdate(true, false, false);
@@ -361,10 +473,17 @@ namespace Notepad.NET
                 {
                     ToolBarButton_Undo.IsEnabled = Editor.CanUndo;
                 }
+
                 if (ToolBarButton_Redo.IsEnabled != Editor.CanRedo)
                 {
                     ToolBarButton_Redo.IsEnabled = Editor.CanRedo;
                 }
+
+                if (ToolBarButton_Find.IsEnabled != (Editor.Text.Length > 0))
+                {
+                    ToolBarButton_Find.IsEnabled = Editor.Text.Length > 0;
+                }
+
             }
 
             if (selChange)
@@ -404,6 +523,23 @@ namespace Notepad.NET
                         MenuItem_Print_Click(sender, null);
                         break;
 
+                    case Key.F:
+                        MenuItem_Find_Click(sender, null);
+                        break;
+
+                    default:
+                        e.Handled = false;
+                        return;
+                }
+            }
+            else if ((e.KeyboardDevice.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
+            {
+                switch (e.Key)
+                {
+                    case Key.F3:
+                        MenuItem_FindPrev_Click(sender, null);
+                        break;
+
                     default:
                         e.Handled = false;
                         return;
@@ -413,6 +549,10 @@ namespace Notepad.NET
             {
                 switch (e.Key)
                 {
+                    case Key.F3:
+                        MenuItem_FindNext_Click(sender, null);
+                        break;
+
                     case Key.F5:
                         MenuItem_DateTime_Click(sender, null);
                         break;
@@ -425,5 +565,6 @@ namespace Notepad.NET
 
             e.Handled = true;
         }
+
     }
 }

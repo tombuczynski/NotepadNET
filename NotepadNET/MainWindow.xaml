@@ -24,6 +24,8 @@
         <Image x:Key="IconCut" Source="img/cut_clipboard_24.png" x:Shared="false" Width="16" Height="16"/>
         <Image x:Key="IconPaste" Source="img/paste_clipboard_24.png" x:Shared="false" Width="16" Height="16"/>
         <Image x:Key="IconDel" Source="img/delete_24.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconSearch" Source="img/search_24_h.png" x:Shared="false" Width="16" Height="16"/>
+        <Image x:Key="IconSearchReplace" Source="img/replace_24.png" x:Shared="false" Width="16" Height="16"/>
         <Style x:Key="MenuItemEnabled" TargetType="MenuItem">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
@@ -59,6 +61,10 @@
                 <MenuItem x:Name="MenuItem_Copy" Header="{x:Static p:Resources.MenuCopy}" InputGestureText="Ctrl+C" IsEnabled="False" Click="MenuItem_Copy_Click" Icon="{StaticResource IconCopy}" Style="{StaticResource MenuItemEnabled}"/>
                 <MenuItem x:Name="MenuItem_Paste" Header="{x:Static p:Resources.MenuPaste}" InputGestureText="Ctrl+V" IsEnabled="False" Click="MenuItem_Paste_Click" Icon="{StaticResource IconPaste}" Style="{StaticResource MenuItemEnabled}"/>
                 <MenuItem x:Name="MenuItem_Del" Header="{x:Static p:Resources.MenuDel}" InputGestureText="Del" IsEnabled="False" Click="MenuItem_Del_Click" Icon="{StaticResource IconDel}" Style="{StaticResource MenuItemEnabled}"/>
+                <Separator/>
+                <MenuItem x:Name="MenuItem_Find" Header="_Znajdź" InputGestureText="Ctrl+F" IsEnabled="False" Click="MenuItem_Find_Click" Icon="{StaticResource IconSearch}" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_FindNext" Header="Z_najdź następne" InputGestureText="F3" IsEnabled="False" Click="MenuItem_FindNext_Click" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_FindPrev" Header="Znajdź _poprzednie" InputGestureText="Shift+F3" IsEnabled="False" Click="MenuItem_FindPrev_Click" Style="{StaticResource MenuItemEnabled}"/>
                 <Separator/>
                 <MenuItem Header="{x:Static p:Resources.MenuSelectAll}" InputGestureText="Ctrl+A" Click="MenuItem_SelAll_Click" Icon="{StaticResource IconSelAll}"/>
                 <MenuItem Header="{x:Static p:Resources.MenuDateTime}" InputGestureText="F5" Click="MenuItem_DateTime_Click" Icon="{StaticResource IconClock}"/>
@@ -98,6 +104,9 @@
                         Click="MenuItem_Paste_Click" ToolBar.OverflowMode="AsNeeded"/>
                 <Button x:Name="ToolBarButton_Del" ToolTip="{x:Static p:Resources.ToolbarDel}" Content="{StaticResource IconDel}" Style="{StaticResource ButtonEnabled}"
                         Click="MenuItem_Del_Click" ToolBar.OverflowMode="AsNeeded"/>
+                <Separator/>
+                <Button x:Name="ToolBarButton_Find" ToolTip="Znajdź (F3)" Content="{StaticResource IconSearch}" Style="{StaticResource ButtonEnabled}"
+                        Click="MenuItem_Find_Click" ToolBar.OverflowMode="Never"/>
             </ToolBar>
             <ToolBar>
                 <Button ToolTip="{x:Static p:Resources.ToolbarFont}" Content="{StaticResource IconFont}" 
@@ -110,14 +119,13 @@
             <StatusBarItem HorizontalAlignment="Left">
                 <TextBlock x:Name="StatusBarFileName" Text=" "/>
             </StatusBarItem>
-            <Separator/>
+            <Separator Margin="0"/>
             <StatusBarItem>
                 <TextBlock x:Name="StatusBarModified" Text=" " FontWeight="Bold"/>
             </StatusBarItem>
-            <Separator HorizontalAlignment="Left"/>
         </StatusBar>
-        <TextBox x:Name="Editor" AcceptsReturn="True" TextWrapping="Wrap" 
+        <TextBox x:Name="Editor" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap" 
                  VerticalScrollBarVisibility="Auto"
-                 HorizontalScrollBarVisibility="Auto" TextChanged="Editor_TextChanged" SelectionChanged="Editor_SelectionChanged"/>
+                 HorizontalScrollBarVisibility="Auto" TextChanged="Editor_TextChanged" SelectionChanged="Editor_SelectionChanged" IsInactiveSelectionHighlightEnabled="True" SelectionBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" SelectionOpacity="0.45" />
     </DockPanel>
 </Window>

@@ -65,10 +65,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.pl.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utils\ColorUtils.cs" />
-    <Compile Include="Utils\FontUtils.cs" />
-    <Compile Include="Utils\PrintUtils.cs" />
-    <Compile Include="Utils\Win32.cs" />
+    <Compile Include="Tomproj.WPFUtils\ColorUtils.cs" />
+    <Compile Include="Tomproj.WPFUtils\FindReplace\FindDlg.xaml.cs">
+      <DependentUpon>FindDlg.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tomproj.WPFUtils\FontUtils.cs" />
+    <Compile Include="Tomproj.WPFUtils\PrintUtils.cs" />
+    <Compile Include="Tomproj.WPFUtils\FindReplace\FindReplace.cs" />
+    <Compile Include="Tomproj.WPFUtils\Win32.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -81,6 +85,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Tomproj.WPFUtils\FindReplace\FindDlg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -114,6 +122,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="img\search_24_h.png" />
     <Resource Include="MainIcon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +148,9 @@
     <Resource Include="img\paste_clipboard_24.png" />
     <Resource Include="img\redo_24.png" />
     <Resource Include="img\undo_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\replace_24.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

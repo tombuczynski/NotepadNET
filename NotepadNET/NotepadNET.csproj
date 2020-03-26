@@ -66,6 +66,9 @@
       <DependentUpon>Resources.pl.resx</DependentUpon>
     </Compile>
     <Compile Include="Tomproj.WPFUtils\ColorUtils.cs" />
+    <Compile Include="Tomproj.WPFUtils\FindReplace\ReplaceDlg.xaml.cs">
+      <DependentUpon>ReplaceDlg.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tomproj.WPFUtils\FindReplace\FindDlg.xaml.cs">
       <DependentUpon>FindDlg.xaml</DependentUpon>
     </Compile>
@@ -85,6 +88,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Tomproj.WPFUtils\FindReplace\ReplaceDlg.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Tomproj.WPFUtils\FindReplace\FindDlg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

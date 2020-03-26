@@ -23,6 +23,7 @@ namespace Notepad.NET
         private bool fTextModified = false;
         private readonly Encoding TextEncoding = Encoding.GetEncoding(1250);
         private FindDlg TextFindDlg = null;
+        private ReplaceDlg TextReplaceDlg = null;
 
         private const int WM_CLIPBOARDUPDATE = 0x031D;
 
@@ -232,9 +233,11 @@ namespace Notepad.NET
             MenuItem_Del.IsEnabled = Editor.SelectionLength > 0;
             MenuItem_Paste.IsEnabled = Clipboard.ContainsText();
 
-            MenuItem_Find.IsEnabled = Editor.Text.Length > 0;
-            MenuItem_FindNext.IsEnabled = MenuItem_Find.IsEnabled;
-            MenuItem_FindPrev.IsEnabled = MenuItem_Find.IsEnabled;
+            bool cond = Editor.Text.Length > 0;
+            MenuItem_Find.IsEnabled = cond;
+            MenuItem_FindNext.IsEnabled = cond;
+            MenuItem_FindPrev.IsEnabled = cond;
+            MenuItem_Replace.IsEnabled = cond;
         }
 
         private void MenuItem_SelAll_Click(object sender, RoutedEventArgs e)
@@ -335,27 +338,42 @@ namespace Notepad.NET
             ShowFindDialog("", false, false);
         }
 
-        private void ShowFindDialog(string text, bool caseSens, bool dirUp)
+        private void MenuItem_Replace_Click(object sender, RoutedEventArgs e)
+        {
+            ShowReplaceDialog("", "", false);
+        }
+
+        private void ShowFindDialog(string findText, bool caseSens, bool dirUp)
         {
             if (Editor.Text.Length > 0)
             {
                 if (TextFindDlg != null)
                 {
-                    text = TextFindDlg.TextToFind;
+                    findText = TextFindDlg.TextToFind;
                     caseSens = TextFindDlg.CaseSensitive;
                     dirUp = TextFindDlg.DirectionUp;
                     TextFindDlg.Close();
+                    TextFindDlg = null;
                 }
+                else if (TextReplaceDlg != null)
+                {
+                    findText = TextReplaceDlg.TextToFind;
+                    caseSens = TextReplaceDlg.CaseSensitive;
+                    dirUp = false;
+                    TextReplaceDlg.Close();
+                    TextReplaceDlg = null;
+                }
+
 
                 if (Editor.SelectionLength > 0)
                 {
-                    text = Editor.SelectedText;
+                    findText = Editor.SelectedText;
                 }
 
                 TextFindDlg = new FindDlg
                 {
                     Owner = this,
-                    TextToFind = text,
+                    TextToFind = findText,
                     CaseSensitive = caseSens,
                     DirectionUp = dirUp,
                 };
@@ -365,29 +383,115 @@ namespace Notepad.NET
             }
         }
 
-        private void TextFindDlg_FindReplace(object sender, FindReplaceEventArgs e)
+        private void ShowReplaceDialog(string findText, string replaceText, bool caseSens)
         {
+            if (Editor.Text.Length > 0)
+            {
+                if (TextReplaceDlg != null)
+                {
+                    findText = TextReplaceDlg.TextToFind;
+                    caseSens = TextReplaceDlg.CaseSensitive;
+                    replaceText = TextReplaceDlg.TextToReplace;
+                    TextReplaceDlg.Close();
+                    TextReplaceDlg = null;
+                }
+                else if (TextFindDlg != null)
+                {
+                    findText = TextFindDlg.TextToFind;
+                    caseSens = TextFindDlg.CaseSensitive;
+                    replaceText = string.Empty;
+                    TextFindDlg.Close();
+                    TextFindDlg = null;
+                }
 
-            int startIndex = -1; 
+
+                if (Editor.SelectionLength > 0)
+                {
+                    findText = Editor.SelectedText;
+                }
+
+                TextReplaceDlg = new ReplaceDlg
+                {
+                    Owner = this,
+                    TextToFind = findText,
+                    CaseSensitive = caseSens,
+                    TextToReplace = replaceText,
+                };
+                TextReplaceDlg.FindReplace += TextReplaceDlg_FindReplace;
+
+                TextReplaceDlg.Show();
+            }
+        }
+
+        private void TextReplaceDlg_FindReplace(object sender, FindReplaceEventArgs e)
+        {
+            int startIndex = -1;
+            int textLen = 0;
+
+            StringBuilder sb; 
 
             switch (e.Mode)
             {
                 case FindReplaceMode.FindNext:
                     startIndex = Editor.CaretIndex + Editor.SelectionLength;
-                    startIndex = Editor.Text.IndexOf(e.TextToFind, startIndex, 
-                        e.CaseSensitive ? StringComparison.CurrentCulture :StringComparison.CurrentCultureIgnoreCase);
-                    break;
-
-                case FindReplaceMode.FindPrev:
-                    startIndex = Editor.CaretIndex;
-                    startIndex = Editor.Text.LastIndexOf(e.TextToFind, startIndex,
+                    startIndex = Editor.Text.IndexOf(e.TextToFind, startIndex,
                         e.CaseSensitive ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
+                    textLen = e.TextToFind.Length;
                     break;
 
                 case FindReplaceMode.ReplaceNext:
+                    startIndex = Editor.CaretIndex;
+                    sb = new StringBuilder(Editor.Text);
+                    startIndex = sb.ToString().IndexOf(e.TextToFind, startIndex,
+                        e.CaseSensitive ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
+                    if (startIndex >= 0)
+                    {
+                        sb.Remove(startIndex, e.TextToFind.Length);
+                        sb.Insert(startIndex, e.TextToReplace);
+                        Editor.Text = sb.ToString();
+                        textLen = e.TextToReplace.Length;
+                    }
                     break;
 
                 case FindReplaceMode.ReplaceAll:
+                    startIndex = 0;
+                    if (Editor.SelectionLength == 0)
+                    {
+                        sb = new StringBuilder(Editor.Text);
+                    }
+                    else
+                    {
+                        sb = new StringBuilder(Editor.SelectedText);
+                    }
+
+                    do
+                    {
+                        startIndex = sb.ToString().IndexOf(e.TextToFind, startIndex,
+                            e.CaseSensitive ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
+                        if (startIndex >= 0)
+                        {
+                            sb.Remove(startIndex, e.TextToFind.Length);
+                            sb.Insert(startIndex, e.TextToReplace);
+                            startIndex += e.TextToReplace.Length;
+                            textLen = e.TextToFind.Length;
+                        }
+                    } while (startIndex >= 0);
+
+                    if (textLen > 0)
+                    {
+                        if (Editor.SelectionLength == 0)
+                        {
+                            Editor.Text = sb.ToString();
+                            textLen = 0;
+                            startIndex = 0;
+                        }
+                        else
+                        {
+                            Editor.SelectedText = sb.ToString();
+                            textLen = sb.Length;
+                            startIndex = Editor.SelectionStart;
+                        }
+                    }
                     break;
 
                 default:
@@ -397,9 +501,57 @@ namespace Notepad.NET
 
             if (startIndex >= 0)
             {
-                Editor.Select(startIndex, e.TextToFind.Length);
+                Editor.Select(startIndex, textLen);
                 Editor.Focus();
             }
+            else
+            {
+                NotFoundMessage(e);
+            }
+
+        }
+
+        private void TextFindDlg_FindReplace(object sender, FindReplaceEventArgs e)
+        {
+            int startIndex = -1;
+            int textLen = 0;
+
+            switch (e.Mode)
+            {
+                case FindReplaceMode.FindNext:
+                    startIndex = Editor.CaretIndex + Editor.SelectionLength;
+                    startIndex = Editor.Text.IndexOf(e.TextToFind, startIndex, 
+                        e.CaseSensitive ? StringComparison.CurrentCulture :StringComparison.CurrentCultureIgnoreCase);
+                    textLen = e.TextToFind.Length;
+                    break;
+
+                case FindReplaceMode.FindPrev:
+                    startIndex = Editor.CaretIndex;
+                    startIndex = Editor.Text.LastIndexOf(e.TextToFind, startIndex,
+                        e.CaseSensitive ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
+                    textLen = e.TextToFind.Length;
+                    break;
+
+                default:
+                    break;
+            }
+
+
+            if (startIndex >= 0)
+            {
+                Editor.Select(startIndex, textLen);
+                Editor.Focus();
+            }
+            else
+            {
+                NotFoundMessage(e);
+            }
+        }
+
+        private void NotFoundMessage(FindReplaceEventArgs e)
+        {
+            MessageBox.Show(this, "Nie można odnaleźć \"" + e.TextToFind + '"', this.Title,
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void MenuItem_FindNext_Click(object sender, RoutedEventArgs e)
@@ -481,7 +633,7 @@ namespace Notepad.NET
 
                 if (ToolBarButton_Find.IsEnabled != (Editor.Text.Length > 0))
                 {
-                    ToolBarButton_Find.IsEnabled = Editor.Text.Length > 0;
+                    ToolBarButton_Find.IsEnabled = ToolBarButton_Replace.IsEnabled = Editor.Text.Length > 0;
                 }
 
             }
@@ -525,6 +677,10 @@ namespace Notepad.NET
 
                     case Key.F:
                         MenuItem_Find_Click(sender, null);
+                        break;
+
+                    case Key.H:
+                        MenuItem_Replace_Click(sender, null);
                         break;
 
                     default:

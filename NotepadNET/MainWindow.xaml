@@ -129,6 +129,6 @@
         </StatusBar>
         <TextBox x:Name="Editor" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap" 
                  VerticalScrollBarVisibility="Auto"
-                 HorizontalScrollBarVisibility="Auto" TextChanged="Editor_TextChanged" SelectionChanged="Editor_SelectionChanged" IsInactiveSelectionHighlightEnabled="True" SelectionBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" SelectionOpacity="0.45" />
+                 HorizontalScrollBarVisibility="Auto" TextChanged="Editor_TextChanged" SelectionChanged="Editor_SelectionChanged" IsInactiveSelectionHighlightEnabled="True" SelectionBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" SelectionOpacity="0.45" PreviewMouseWheel="Editor_PreviewMouseWheel" />
     </DockPanel>
 </Window>

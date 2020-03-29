@@ -9,6 +9,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using Tomproj.WPFUtils;
 using Tomproj.WPFUtils.FindReplace;
+using static Tomproj.WPFUtils.FontUtils;
 
 namespace Notepad.NET
 {
@@ -721,5 +722,20 @@ namespace Notepad.NET
             e.Handled = true;
         }
 
+        private void Editor_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+
+            if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                Font font = Font.ExtractFrom(Editor);
+                font.SizePt += e.Delta < 0 ? -1.0 : 1.0;
+                font.ApplyTo(Editor);
+
+                e.Handled = true;
+                return;
+            }
+
+            e.Handled = false;
+        }
     }
 }

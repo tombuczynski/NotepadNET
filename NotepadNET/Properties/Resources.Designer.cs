@@ -19,7 +19,7 @@ namespace Notepad.NET.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -66,6 +66,78 @@ namespace Notepad.NET.Properties {
         public static string FileFilter {
             get {
                 return ResourceManager.GetString("FileFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string FindDlgCancel {
+            get {
+                return ResourceManager.GetString("FindDlgCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Match _case.
+        /// </summary>
+        public static string FindDlgCaseSens {
+            get {
+                return ResourceManager.GetString("FindDlgCaseSens", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Direction.
+        /// </summary>
+        public static string FindDlgDirection {
+            get {
+                return ResourceManager.GetString("FindDlgDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Down.
+        /// </summary>
+        public static string FindDlgDown {
+            get {
+                return ResourceManager.GetString("FindDlgDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Find:.
+        /// </summary>
+        public static string FindDlgFind {
+            get {
+                return ResourceManager.GetString("FindDlgFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find _next.
+        /// </summary>
+        public static string FindDlgFindNext {
+            get {
+                return ResourceManager.GetString("FindDlgFindNext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find.
+        /// </summary>
+        public static string FindDlgTitle {
+            get {
+                return ResourceManager.GetString("FindDlgTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Up.
+        /// </summary>
+        public static string FindDlgUp {
+            get {
+                return ResourceManager.GetString("FindDlgUp", resourceCulture);
             }
         }
         
@@ -142,6 +214,33 @@ namespace Notepad.NET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Find....
+        /// </summary>
+        public static string MenuFind {
+            get {
+                return ResourceManager.GetString("MenuFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find _next.
+        /// </summary>
+        public static string MenuFindNext {
+            get {
+                return ResourceManager.GetString("MenuFindNext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Find _previous.
+        /// </summary>
+        public static string MenuFindPrev {
+            get {
+                return ResourceManager.GetString("MenuFindPrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Font....
         /// </summary>
         public static string MenuFont {
@@ -192,6 +291,15 @@ namespace Notepad.NET.Properties {
         public static string MenuRedo {
             get {
                 return ResourceManager.GetString("MenuRedo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Replace....
+        /// </summary>
+        public static string MenuReplace {
+            get {
+                return ResourceManager.GetString("MenuReplace", resourceCulture);
             }
         }
         
@@ -277,6 +385,15 @@ namespace Notepad.NET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t find.
+        /// </summary>
+        public static string MessageNotFound {
+            get {
+                return ResourceManager.GetString("MessageNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to text modified.
         /// </summary>
         public static string MessageTextChanged {
@@ -300,6 +417,42 @@ namespace Notepad.NET.Properties {
         public static string OpenFileTitle {
             get {
                 return ResourceManager.GetString("OpenFileTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Replace.
+        /// </summary>
+        public static string ReplaceDlgReplace {
+            get {
+                return ResourceManager.GetString("ReplaceDlgReplace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace _all.
+        /// </summary>
+        public static string ReplaceDlgReplaceAll {
+            get {
+                return ResourceManager.GetString("ReplaceDlgReplaceAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace _to:.
+        /// </summary>
+        public static string ReplaceDlgReplaceTo {
+            get {
+                return ResourceManager.GetString("ReplaceDlgReplaceTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace.
+        /// </summary>
+        public static string ReplaceDlgTitle {
+            get {
+                return ResourceManager.GetString("ReplaceDlgTitle", resourceCulture);
             }
         }
         
@@ -358,6 +511,15 @@ namespace Notepad.NET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Find (Ctrl+F).
+        /// </summary>
+        public static string ToolbarFind {
+            get {
+                return ResourceManager.GetString("ToolbarFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Font.
         /// </summary>
         public static string ToolbarFont {
@@ -408,6 +570,15 @@ namespace Notepad.NET.Properties {
         public static string ToolbarRedo {
             get {
                 return ResourceManager.GetString("ToolbarRedo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace (Ctrl+H).
+        /// </summary>
+        public static string ToolbarReplace {
+            get {
+                return ResourceManager.GetString("ToolbarReplace", resourceCulture);
             }
         }
         

@@ -4,18 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tomproj.WPFUtils.FindReplace"
+        xmlns:p="clr-namespace:Notepad.NET.Properties"
         mc:Ignorable="d"
-        Title="Znajdowanie" Height="170.256" Width="487.896" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="{x:Static p:Resources.FindDlgTitle}" Height="170.256" Width="487.896" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FocusManager.FocusedElement="{Binding ElementName=TextBox_FindText}">
-        <Label Content="_Znajdź:" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" Target="{Binding ElementName=TextBox_FindText}" />
+        <Label Content="{x:Static p:Resources.FindDlgFind}" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" Target="{Binding ElementName=TextBox_FindText}" />
         <TextBox x:Name="TextBox_FindText" HorizontalAlignment="Left" Height="24" Margin="63,14,0,0" VerticalAlignment="Top" Width="268" TextWrapping="NoWrap" VerticalContentAlignment="Center" TextChanged="TextBox_FindText_TextChanged"/>
-        <CheckBox x:Name="CheckBox_CaseSens" Content="Uwzględnij wi_elkość liter" HorizontalAlignment="Left" Margin="10,0,0,10.4" Height="15" VerticalAlignment="Bottom"/>
-        <Button x:Name="Button_FindNext" Content="Znajdź _następny" Margin="0,14,9.6,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="116" IsDefault="True" Click="Button_FindNext_Click" IsEnabled="False"/>
-        <Button x:Name="Button_Cancel" Content="Anuluj" Margin="0,49,9.6,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="116" IsCancel="True" Click="Button_Cancel_Click"/>
-        <GroupBox x:Name="GroupBox" Header="Kierunek" HorizontalAlignment="Left" Margin="180,52,0,0" Width="151" Height="50" VerticalAlignment="Top"  Padding="3,6,0,0">
+        <CheckBox x:Name="CheckBox_CaseSens" Content="{x:Static p:Resources.FindDlgCaseSens}" HorizontalAlignment="Left" Margin="10,0,0,10.4" Height="15" VerticalAlignment="Bottom"/>
+        <Button x:Name="Button_FindNext" Content="{x:Static p:Resources.FindDlgFindNext}" Margin="0,14,9.6,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="116" IsDefault="True" Click="Button_FindNext_Click" IsEnabled="False"/>
+        <Button x:Name="Button_Cancel" Content="{x:Static p:Resources.FindDlgCancel}" Margin="0,49,9.6,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="116" IsCancel="True" Click="Button_Cancel_Click"/>
+        <GroupBox x:Name="GroupBox" Header="{x:Static p:Resources.FindDlgDirection}" HorizontalAlignment="Left" Margin="180,52,0,0" Width="151" Height="50" VerticalAlignment="Top"  Padding="3,6,0,0">
             <StackPanel Orientation="Horizontal">
-                <RadioButton x:Name="RadioButton_Up" Content="_W górę" Margin="0,0,0,0" VerticalAlignment="Top" IsChecked="True" />
-                <RadioButton x:Name="RadioButton_Down" Content="W _dół" Margin="12,0,0,0" VerticalAlignment="Top" IsChecked="True" />
+                <RadioButton x:Name="RadioButton_Up" Content="{x:Static p:Resources.FindDlgUp}" Margin="0,0,0,0" VerticalAlignment="Top" IsChecked="True" />
+                <RadioButton x:Name="RadioButton_Down" Content="{x:Static p:Resources.FindDlgDown}" Margin="12,0,0,0" VerticalAlignment="Top" IsChecked="True" />
             </StackPanel>
         </GroupBox>
 

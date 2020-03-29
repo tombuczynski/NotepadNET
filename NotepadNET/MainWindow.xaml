@@ -62,10 +62,10 @@
                 <MenuItem x:Name="MenuItem_Paste" Header="{x:Static p:Resources.MenuPaste}" InputGestureText="Ctrl+V" IsEnabled="False" Click="MenuItem_Paste_Click" Icon="{StaticResource IconPaste}" Style="{StaticResource MenuItemEnabled}"/>
                 <MenuItem x:Name="MenuItem_Del" Header="{x:Static p:Resources.MenuDel}" InputGestureText="Del" IsEnabled="False" Click="MenuItem_Del_Click" Icon="{StaticResource IconDel}" Style="{StaticResource MenuItemEnabled}"/>
                 <Separator/>
-                <MenuItem x:Name="MenuItem_Find" Header="_Znajdź..." InputGestureText="Ctrl+F" IsEnabled="False" Click="MenuItem_Find_Click" Icon="{StaticResource IconSearch}" Style="{StaticResource MenuItemEnabled}"/>
-                <MenuItem x:Name="MenuItem_FindNext" Header="Z_najdź następne" InputGestureText="F3" IsEnabled="False" Click="MenuItem_FindNext_Click" Style="{StaticResource MenuItemEnabled}"/>
-                <MenuItem x:Name="MenuItem_FindPrev" Header="Znajdź _poprzednie" InputGestureText="Shift+F3" IsEnabled="False" Click="MenuItem_FindPrev_Click" Style="{StaticResource MenuItemEnabled}"/>
-                <MenuItem x:Name="MenuItem_Replace" Header="Za_mień..." InputGestureText="Ctrl+H" IsEnabled="False" Click="MenuItem_Replace_Click" Icon="{StaticResource IconSearchReplace}" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_Find" Header="{x:Static p:Resources.MenuFind}" InputGestureText="Ctrl+F" IsEnabled="False" Click="MenuItem_Find_Click" Icon="{StaticResource IconSearch}" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_FindNext" Header="{x:Static p:Resources.MenuFindNext}" InputGestureText="F3" IsEnabled="False" Click="MenuItem_FindNext_Click" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_FindPrev" Header="{x:Static p:Resources.MenuFindPrev}" InputGestureText="Shift+F3" IsEnabled="False" Click="MenuItem_FindPrev_Click" Style="{StaticResource MenuItemEnabled}"/>
+                <MenuItem x:Name="MenuItem_Replace" Header="{x:Static p:Resources.MenuReplace}" InputGestureText="Ctrl+H" IsEnabled="False" Click="MenuItem_Replace_Click" Icon="{StaticResource IconSearchReplace}" Style="{StaticResource MenuItemEnabled}"/>
                 <Separator/>
                 <MenuItem Header="{x:Static p:Resources.MenuSelectAll}" InputGestureText="Ctrl+A" Click="MenuItem_SelAll_Click" Icon="{StaticResource IconSelAll}"/>
                 <MenuItem Header="{x:Static p:Resources.MenuDateTime}" InputGestureText="F5" Click="MenuItem_DateTime_Click" Icon="{StaticResource IconClock}"/>
@@ -106,9 +106,9 @@
                 <Button x:Name="ToolBarButton_Del" ToolTip="{x:Static p:Resources.ToolbarDel}" Content="{StaticResource IconDel}" Style="{StaticResource ButtonEnabled}"
                         Click="MenuItem_Del_Click" ToolBar.OverflowMode="AsNeeded"/>
                 <Separator/>
-                <Button x:Name="ToolBarButton_Find" ToolTip="Znajdź (Ctrl+F)" Content="{StaticResource IconSearch}" Style="{StaticResource ButtonEnabled}"
+                <Button x:Name="ToolBarButton_Find" ToolTip="{x:Static p:Resources.ToolbarFind}" Content="{StaticResource IconSearch}" Style="{StaticResource ButtonEnabled}"
                         Click="MenuItem_Find_Click" ToolBar.OverflowMode="Never"/>
-                <Button x:Name="ToolBarButton_Replace" ToolTip="Zamień (Ctrl+H)" Content="{StaticResource IconSearchReplace}" Style="{StaticResource ButtonEnabled}"
+                <Button x:Name="ToolBarButton_Replace" ToolTip="{x:Static p:Resources.ToolbarReplace}" Content="{StaticResource IconSearchReplace}" Style="{StaticResource ButtonEnabled}"
                         Click="MenuItem_Replace_Click" ToolBar.OverflowMode="AsNeeded"/>
             </ToolBar>
             <ToolBar>

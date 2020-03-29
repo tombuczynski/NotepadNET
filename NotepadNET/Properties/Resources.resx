@@ -120,6 +120,30 @@
   <data name="FileFilter" xml:space="preserve">
     <value>Text Files (*.txt)|*.txt|XML Files (*.xml)|*.xml|C# Source Files (*.cs)|*.cs|All Files (*.*)|*.*</value>
   </data>
+  <data name="FindDlgCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="FindDlgCaseSens" xml:space="preserve">
+    <value>Match _case</value>
+  </data>
+  <data name="FindDlgDirection" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="FindDlgDown" xml:space="preserve">
+    <value>_Down</value>
+  </data>
+  <data name="FindDlgFind" xml:space="preserve">
+    <value>_Find:</value>
+  </data>
+  <data name="FindDlgFindNext" xml:space="preserve">
+    <value>Find _next</value>
+  </data>
+  <data name="FindDlgTitle" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="FindDlgUp" xml:space="preserve">
+    <value>_Up</value>
+  </data>
   <data name="MenuBkColor" xml:space="preserve">
     <value>_Background Color...</value>
   </data>
@@ -144,6 +168,15 @@
   <data name="MenuFile" xml:space="preserve">
     <value>_File</value>
   </data>
+  <data name="MenuFind" xml:space="preserve">
+    <value>_Find...</value>
+  </data>
+  <data name="MenuFindNext" xml:space="preserve">
+    <value>Find _next</value>
+  </data>
+  <data name="MenuFindPrev" xml:space="preserve">
+    <value>Find _previous</value>
+  </data>
   <data name="MenuFont" xml:space="preserve">
     <value>_Font...</value>
   </data>
@@ -161,6 +194,9 @@
   </data>
   <data name="MenuRedo" xml:space="preserve">
     <value>_Redo</value>
+  </data>
+  <data name="MenuReplace" xml:space="preserve">
+    <value>_Replace...</value>
   </data>
   <data name="MenuSave" xml:space="preserve">
     <value>_Save</value>
@@ -189,6 +225,9 @@
   <data name="MessageFileChanged" xml:space="preserve">
     <value>Save changes to the file ?</value>
   </data>
+  <data name="MessageNotFound" xml:space="preserve">
+    <value>Can't find</value>
+  </data>
   <data name="MessageTextChanged" xml:space="preserve">
     <value>text modified</value>
   </data>
@@ -197,6 +236,18 @@
   </data>
   <data name="OpenFileTitle" xml:space="preserve">
     <value>Open File</value>
+  </data>
+  <data name="ReplaceDlgReplace" xml:space="preserve">
+    <value>_Replace</value>
+  </data>
+  <data name="ReplaceDlgReplaceAll" xml:space="preserve">
+    <value>Replace _all</value>
+  </data>
+  <data name="ReplaceDlgReplaceTo" xml:space="preserve">
+    <value>Replace _to:</value>
+  </data>
+  <data name="ReplaceDlgTitle" xml:space="preserve">
+    <value>Replace</value>
   </data>
   <data name="SaveFileTitle" xml:space="preserve">
     <value>Save File</value>
@@ -216,6 +267,9 @@
   <data name="ToolbarDel" xml:space="preserve">
     <value>Delete (Del)</value>
   </data>
+  <data name="ToolbarFind" xml:space="preserve">
+    <value>Find (Ctrl+F)</value>
+  </data>
   <data name="ToolbarFont" xml:space="preserve">
     <value>Font</value>
   </data>
@@ -233,6 +287,9 @@
   </data>
   <data name="ToolbarRedo" xml:space="preserve">
     <value>Redo (Ctrl+Y)</value>
+  </data>
+  <data name="ToolbarReplace" xml:space="preserve">
+    <value>Replace (Ctrl+H)</value>
   </data>
   <data name="ToolbarSave" xml:space="preserve">
     <value>Save (Ctrl+S)</value>

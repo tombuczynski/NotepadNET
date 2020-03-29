@@ -38,8 +38,7 @@ namespace Notepad.NET
 
         public MainWindow()
         {
-           //System.Threading.Thread.CurrentThread.CurrentUICulture = 
-           //     System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
+           System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
 
             InitializeComponent();
 
@@ -550,7 +549,7 @@ namespace Notepad.NET
 
         private void NotFoundMessage(FindReplaceEventArgs e)
         {
-            MessageBox.Show(this, "Nie można odnaleźć \"" + e.TextToFind + '"', this.Title,
+            MessageBox.Show(this, Properties.Resources.MessageNotFound + " \"" + e.TextToFind + '"', this.Title,
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }
 

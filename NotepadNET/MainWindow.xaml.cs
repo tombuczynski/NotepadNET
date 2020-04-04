@@ -15,7 +15,7 @@ namespace Notepad.NET
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : RibbonWindow
     {
         private OpenFileDialog OpenFileDlg;
         private SaveFileDialog SaveFileDlg;
@@ -326,6 +326,9 @@ namespace Notepad.NET
             source.AddHook(WndProc);
 
             Win32.AddClipboardFormatListener(source.Handle);
+
+            var value = Win32.GetWindowLong(source.Handle, Win32.GWL_STYLE);
+            Win32.SetWindowLong(source.Handle, Win32.GWL_STYLE, (int)(value & ~Win32.WS_MAXIMIZEBOX));
         }
 
         IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

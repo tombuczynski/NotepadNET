@@ -15,5 +15,14 @@ namespace Tomproj.WPFUtils
 
         [DllImport("user32.dll")]
         public static extern bool AddClipboardFormatListener(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll")]
+        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        public const int GWL_STYLE = -16;
+        public const int WS_MAXIMIZEBOX = 0x10000;
     }
 }

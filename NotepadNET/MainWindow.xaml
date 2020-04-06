@@ -154,9 +154,11 @@
             <Ribbon.QuickAccessToolBar>
                 <RibbonQuickAccessToolBar>
                     <RibbonButton Click="MenuItem_Save_Click" ToolTip="Zapisz (Ctrl+S)" KeyTip="S" SmallImageSource="img/file_yellow_save.png" />
-                    <RibbonButton Click="MenuItem_Undo_Click" ToolTip="Cofnij (Ctrl+Z)" KeyTip="C" SmallImageSource="img/undo_24.png" />
+                    <RibbonButton x:Name="RibbonButton_Undo" Click="MenuItem_Undo_Click" ToolTip="Cofnij (Ctrl+Z)" KeyTip="C" SmallImageSource="img/undo_24.png" Style="{StaticResource ButtonEnabled}" IsEnabled="False"/>
                     <RibbonSplitButton ToolTipTitle="Widok" KeyTip="W" SmallImageSource="img/rectangle_yellow.png">
-                        <RibbonSplitMenuItem Header="AAA" ToolTipTitle="BBB" ImageSource="img/rectangle_yellow.png"/>
+                        <RibbonSplitMenuItem Header="Zawijanie wierszy" KeyTip="Z" ToolTipTitle="Z" IsCheckable="True" IsChecked="True" Click="MenuItem_Wrapping_Click"/>
+                        <RibbonSplitMenuItem Header="Czcionka..." KeyTip="C" ToolTipTitle="C" ImageSource="img/text_size.png" Click="MenuItem_Font_Click"/>
+                        <RibbonSplitMenuItem Header="Kolor tła..." KeyTip="K" ToolTipTitle="K" ImageSource="img/file_yellow_save.png" Click="MenuItem_BackgroundColor_Click"/>
                     </RibbonSplitButton>
                 </RibbonQuickAccessToolBar>
             </Ribbon.QuickAccessToolBar>

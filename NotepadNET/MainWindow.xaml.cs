@@ -355,6 +355,7 @@ namespace Notepad.NET
                 if (ToolBarButton_Undo.IsEnabled != Editor.CanUndo)
                 {
                     ToolBarButton_Undo.IsEnabled = Editor.CanUndo;
+                    RibbonButton_Undo.IsEnabled = ToolBarButton_Undo.IsEnabled;
                 }
                 if (ToolBarButton_Redo.IsEnabled != Editor.CanRedo)
                 {

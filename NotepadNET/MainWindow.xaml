@@ -156,12 +156,44 @@
                     <RibbonButton Click="MenuItem_Save_Click" ToolTip="Zapisz (Ctrl+S)" KeyTip="S" SmallImageSource="img/file_yellow_save.png" />
                     <RibbonButton x:Name="RibbonButton_Undo" Click="MenuItem_Undo_Click" ToolTip="Cofnij (Ctrl+Z)" KeyTip="C" SmallImageSource="img/undo_24.png" Style="{StaticResource ButtonEnabled}" IsEnabled="False"/>
                     <RibbonSplitButton ToolTipTitle="Widok" KeyTip="W" SmallImageSource="img/rectangle_yellow.png">
-                        <RibbonSplitMenuItem Header="Zawijanie wierszy" KeyTip="Z" ToolTipTitle="Z" IsCheckable="True" IsChecked="True" Click="MenuItem_Wrapping_Click"/>
-                        <RibbonSplitMenuItem Header="Czcionka..." KeyTip="C" ToolTipTitle="C" ImageSource="img/text_size.png" Click="MenuItem_Font_Click"/>
-                        <RibbonSplitMenuItem Header="Kolor tła..." KeyTip="K" ToolTipTitle="K" ImageSource="img/file_yellow_save.png" Click="MenuItem_BackgroundColor_Click"/>
+                        <RibbonSplitMenuItem Header="Zawijanie wierszy" KeyTip="Z" IsCheckable="True" IsChecked="True" Click="MenuItem_Wrapping_Click"/>
+                        <RibbonSplitMenuItem Header="Czcionka..." KeyTip="C" ImageSource="img/text_size.png" Click="MenuItem_Font_Click"/>
+                        <RibbonSplitMenuItem Header="Kolor tła..." KeyTip="K" ImageSource="img/rectangle_yellow.png" Click="MenuItem_BackgroundColor_Click"/>
                     </RibbonSplitButton>
                 </RibbonQuickAccessToolBar>
             </Ribbon.QuickAccessToolBar>
+            <RibbonTab Header="Edycja">
+                <RibbonGroup Header="Schowek">
+                    <RibbonMenuButton Label="Wklej" LargeImageSource="img/paste_clipboard_24.png" >
+                        <RibbonMenuItem Header="Wklej" ImageSource="img/paste_clipboard_24.png" Click="MenuItem_Paste_Click"/>
+                        <RibbonMenuItem Header="Wklej specjalnie" Click="MenuItem_Paste_Click"/>
+                    </RibbonMenuButton>
+                    <UniformGrid Columns="1" Rows="3">
+                        <RibbonButton Click="MenuItem_Copy_Click" ToolTip="Kopiuj" SmallImageSource="img/copy_clipboard_lined_24.png" />
+                        <RibbonButton Click="MenuItem_Cut_Click" ToolTip="Wytnij" SmallImageSource="img/cut_clipboard_24.png" />
+                        <RibbonButton Click="MenuItem_Del_Click" ToolTip="Usuń" SmallImageSource="img/delete_24.png" />
+                    </UniformGrid>
+                </RibbonGroup>
+                <RibbonGroup Header="Wstawianie">
+                    <UniformGrid Columns="1" Rows="2">
+                        <RibbonButton Click="MenuItem_DateTime_Click" Label="Data i czas" SmallImageSource="img/clock_0220.png" />
+                        <RibbonButton Label="Nazwa pliku" />
+                    </UniformGrid>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Header="Widok">
+                <RibbonGroup Header="Interfejs">
+                    <UniformGrid Columns="1" Rows="1">
+                        <RibbonCheckBox Click="MenuItem_Statusbar_Click" Label="Pasek stanu" IsChecked="True" HorizontalAlignment="Left" />
+                    </UniformGrid>
+                </RibbonGroup>
+                <RibbonGroup Header="Czcionki i kolory">
+                    <UniformGrid Columns="1" Rows="2">
+                        <RibbonButton Label="Czcionka..." SmallImageSource="img/text_size.png" Click="MenuItem_Font_Click"/>
+                        <RibbonButton Label="Kolor tła..." SmallImageSource="img/rectangle_yellow.png" Click="MenuItem_BackgroundColor_Click"/>
+                    </UniformGrid>
+                </RibbonGroup>
+            </RibbonTab>
         </Ribbon>
         <StatusBar x:Name="MainStatusBar" DockPanel.Dock="Bottom">
             <TextBlock x:Name="StatusBarTextField" Text=" "/>

@@ -279,10 +279,13 @@ namespace Notepad.NET
 
         private void MenuItem_Statusbar_Click(object sender, RoutedEventArgs e)
         {
-            bool isChecked = ((MenuItem)sender).IsChecked;
+            bool? isChecked = (sender is RibbonCheckBox) ? ((RibbonCheckBox)sender).IsChecked : ((MenuItem)sender).IsChecked;
 
-            MainStatusBar.Visibility = isChecked ? Visibility.Visible : Visibility.Collapsed;
-            this.ResizeMode = isChecked ? ResizeMode.CanResizeWithGrip : ResizeMode.CanResize;
+            if (isChecked.HasValue)
+            {
+                MainStatusBar.Visibility = isChecked.Value ? Visibility.Visible : Visibility.Collapsed;
+                this.ResizeMode = isChecked.Value ? ResizeMode.CanResizeWithGrip : ResizeMode.CanResize;
+            }
         }
 
         private void MenuItem_BackgroundColor_Click(object sender, RoutedEventArgs e)
@@ -421,5 +424,6 @@ namespace Notepad.NET
 
             e.Handled = true;
         }
+
     }
 }

@@ -18,32 +18,44 @@ namespace Notepad.NET
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly OpenFileDialog OpenFileDlg;
-        private readonly SaveFileDialog SaveFileDlg;
-        private string TextFilePath = null;
-        private bool fTextModified = false;
         private readonly Encoding TextEncoding = Encoding.GetEncoding(1250);
-        private FindDlg TextFindDlg = null;
-        private ReplaceDlg TextReplaceDlg = null;
-
         private const int WM_CLIPBOARDUPDATE = 0x031D;
+
+        private readonly OpenFileDialog _openFileDlg;
+        private readonly SaveFileDialog _saveFileDlg;
+        private FindDlg _textFindDlg = null;
+        private ReplaceDlg _textReplaceDlg = null;
+
+        private string _textFilePath = null;
+        private bool _textModified = false;
+
 
         private bool TextModified
         {
-            get => fTextModified;
-            set {
-                fTextModified = value;
+            get => _textModified;
+            set
+            {
+                if (_textModified && ! value)
+                {
+                    Editor.IsUndoEnabled = false;
+                    Editor.IsUndoEnabled = true;
+
+                    ToolBarUpdate(false, true, false);
+                }
+
+                _textModified = value;
+
                 UpdateStatusBar();
             }
         }
 
         public MainWindow()
         {
-           System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
+           //System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
 
             InitializeComponent();
 
-            OpenFileDlg = new OpenFileDialog
+            _openFileDlg = new OpenFileDialog
             {
                 DefaultExt = "txt",
                 Filter = Properties.Resources.FileFilter,
@@ -51,9 +63,9 @@ namespace Notepad.NET
                 Title = Properties.Resources.OpenFileTitle
             };
 
-            SaveFileDlg = new SaveFileDialog
+            _saveFileDlg = new SaveFileDialog
             {
-                DefaultExt = OpenFileDlg.DefaultExt,
+                DefaultExt = _openFileDlg.DefaultExt,
                 Filter = Properties.Resources.FileFilter,
                 FilterIndex = 1,
                 Title = Properties.Resources.SaveFileTitle
@@ -64,14 +76,14 @@ namespace Notepad.NET
 
         private void LoadFile()
         {
-            Editor.Text = File.ReadAllText(TextFilePath, TextEncoding);
+            Editor.Text = File.ReadAllText(_textFilePath, TextEncoding);
             UpdateStatusBar();
             TextModified = false;
         }
 
         private void SaveFile()
         {
-            File.WriteAllText(TextFilePath, Editor.Text, TextEncoding);
+            File.WriteAllText(_textFilePath, Editor.Text, TextEncoding);
             UpdateStatusBar();
             TextModified = false;
         }
@@ -80,9 +92,9 @@ namespace Notepad.NET
         {
             string textField1 = Properties.Resources.NoFile;
 
-            if (!string.IsNullOrEmpty(TextFilePath))
+            if (!string.IsNullOrEmpty(_textFilePath))
             {
-                textField1 = Path.GetFileName(TextFilePath);
+                textField1 = Path.GetFileName(_textFilePath);
             }
 
             if (StatusBarFileName.Text != textField1)
@@ -90,7 +102,7 @@ namespace Notepad.NET
                 StatusBarFileName.Text = textField1;
             }
 
-            string textField2 = fTextModified ? Properties.Resources.TextModified : "  ";
+            string textField2 = _textModified ? Properties.Resources.TextModified : "  ";
 
             if (StatusBarModified.Text != textField2)
             {
@@ -128,18 +140,18 @@ namespace Notepad.NET
         {
             if (ChangesAccepted())
             {
-                if (!string.IsNullOrEmpty(TextFilePath))
+                if (!string.IsNullOrEmpty(_textFilePath))
                 {
-                    OpenFileDlg.InitialDirectory = Path.GetDirectoryName(TextFilePath);
-                    OpenFileDlg.FileName = Path.GetFileName(TextFilePath);
+                    _openFileDlg.InitialDirectory = Path.GetDirectoryName(_textFilePath);
+                    _openFileDlg.FileName = Path.GetFileName(_textFilePath);
 
                 }
 
-                bool? result = OpenFileDlg.ShowDialog();
+                bool? result = _openFileDlg.ShowDialog();
 
                 if (result.HasValue && result.Value)
                 {
-                    TextFilePath = OpenFileDlg.FileName;
+                    _textFilePath = _openFileDlg.FileName;
                     LoadFile();
                 }
             }
@@ -147,7 +159,7 @@ namespace Notepad.NET
 
         private void MenuItem_Save_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(TextFilePath))
+            if (!string.IsNullOrEmpty(_textFilePath))
             {
                SaveFile();
             }
@@ -160,18 +172,18 @@ namespace Notepad.NET
 
         private void MenuItem_SaveAs_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(TextFilePath))
+            if (!string.IsNullOrEmpty(_textFilePath))
             {
-                SaveFileDlg.InitialDirectory = Path.GetDirectoryName(TextFilePath);
-                SaveFileDlg.FileName = Path.GetFileName(TextFilePath);
+                _saveFileDlg.InitialDirectory = Path.GetDirectoryName(_textFilePath);
+                _saveFileDlg.FileName = Path.GetFileName(_textFilePath);
 
             }
 
-            bool? result = SaveFileDlg.ShowDialog();
+            bool? result = _saveFileDlg.ShowDialog();
 
             if (result.HasValue && result.Value)
             {
-                TextFilePath = SaveFileDlg.FileName;
+                _textFilePath = _saveFileDlg.FileName;
                 SaveFile();
             }
         }
@@ -186,7 +198,7 @@ namespace Notepad.NET
             if (ChangesAccepted())
             {
                 Editor.Clear();
-                TextFilePath = null;
+                _textFilePath = null;
                 TextModified = false;
                 UpdateStatusBar();
             }
@@ -306,9 +318,9 @@ namespace Notepad.NET
         private void MenuItem_BackgroundColor_Click(object sender, RoutedEventArgs e)
         {
             Color color = Colors.White;
-            if (Editor.Background is SolidColorBrush)
+            if (Editor.Background is SolidColorBrush brush)
             {
-                color = ((SolidColorBrush)Editor.Background).Color;
+                color = brush.Color;
             }
 
 
@@ -330,7 +342,7 @@ namespace Notepad.NET
 
         private void MenuItem_Print_Click(object sender, RoutedEventArgs e)
         {
-            PrintUtils.PrintText(Editor.Text, FontUtils.Font.ExtractFrom(Editor), Path.GetFileName(TextFilePath));
+            PrintUtils.PrintText(Editor.Text, FontUtils.Font.ExtractFrom(Editor), Path.GetFileName(_textFilePath));
         }
 
         private void MenuItem_Find_Click(object sender, RoutedEventArgs e)
@@ -347,21 +359,21 @@ namespace Notepad.NET
         {
             if (Editor.Text.Length > 0)
             {
-                if (TextFindDlg != null)
+                if (_textFindDlg != null)
                 {
-                    findText = TextFindDlg.TextToFind;
-                    caseSens = TextFindDlg.CaseSensitive;
-                    dirUp = TextFindDlg.DirectionUp;
-                    TextFindDlg.Close();
-                    TextFindDlg = null;
+                    findText = _textFindDlg.TextToFind;
+                    caseSens = _textFindDlg.CaseSensitive;
+                    dirUp = _textFindDlg.DirectionUp;
+                    _textFindDlg.Close();
+                    _textFindDlg = null;
                 }
-                else if (TextReplaceDlg != null)
+                else if (_textReplaceDlg != null)
                 {
-                    findText = TextReplaceDlg.TextToFind;
-                    caseSens = TextReplaceDlg.CaseSensitive;
+                    findText = _textReplaceDlg.TextToFind;
+                    caseSens = _textReplaceDlg.CaseSensitive;
                     dirUp = false;
-                    TextReplaceDlg.Close();
-                    TextReplaceDlg = null;
+                    _textReplaceDlg.Close();
+                    _textReplaceDlg = null;
                 }
 
 
@@ -370,16 +382,16 @@ namespace Notepad.NET
                     findText = Editor.SelectedText;
                 }
 
-                TextFindDlg = new FindDlg
+                _textFindDlg = new FindDlg
                 {
                     Owner = this,
                     TextToFind = findText,
                     CaseSensitive = caseSens,
                     DirectionUp = dirUp,
                 };
-                TextFindDlg.FindReplace += TextFindDlg_FindReplace;
+                _textFindDlg.FindReplace += TextFindDlg_FindReplace;
 
-                TextFindDlg.Show();
+                _textFindDlg.Show();
             }
         }
 
@@ -387,21 +399,21 @@ namespace Notepad.NET
         {
             if (Editor.Text.Length > 0)
             {
-                if (TextReplaceDlg != null)
+                if (_textReplaceDlg != null)
                 {
-                    findText = TextReplaceDlg.TextToFind;
-                    caseSens = TextReplaceDlg.CaseSensitive;
-                    replaceText = TextReplaceDlg.TextToReplace;
-                    TextReplaceDlg.Close();
-                    TextReplaceDlg = null;
+                    findText = _textReplaceDlg.TextToFind;
+                    caseSens = _textReplaceDlg.CaseSensitive;
+                    replaceText = _textReplaceDlg.TextToReplace;
+                    _textReplaceDlg.Close();
+                    _textReplaceDlg = null;
                 }
-                else if (TextFindDlg != null)
+                else if (_textFindDlg != null)
                 {
-                    findText = TextFindDlg.TextToFind;
-                    caseSens = TextFindDlg.CaseSensitive;
+                    findText = _textFindDlg.TextToFind;
+                    caseSens = _textFindDlg.CaseSensitive;
                     replaceText = string.Empty;
-                    TextFindDlg.Close();
-                    TextFindDlg = null;
+                    _textFindDlg.Close();
+                    _textFindDlg = null;
                 }
 
 
@@ -410,16 +422,16 @@ namespace Notepad.NET
                     findText = Editor.SelectedText;
                 }
 
-                TextReplaceDlg = new ReplaceDlg
+                _textReplaceDlg = new ReplaceDlg
                 {
                     Owner = this,
                     TextToFind = findText,
                     CaseSensitive = caseSens,
                     TextToReplace = replaceText,
                 };
-                TextReplaceDlg.FindReplace += TextReplaceDlg_FindReplace;
+                _textReplaceDlg.FindReplace += TextReplaceDlg_FindReplace;
 
-                TextReplaceDlg.Show();
+                _textReplaceDlg.Show();
             }
         }
 
@@ -568,12 +580,12 @@ namespace Notepad.NET
         {
             if (Editor.Text.Length > 0)
             {
-                if (TextFindDlg != null)
+                if (_textFindDlg != null)
                 {
                     FindReplaceEventArgs eventArgs = new FindReplaceEventArgs
                     {
-                        CaseSensitive = TextFindDlg.CaseSensitive,
-                        TextToFind = TextFindDlg.TextToFind,
+                        CaseSensitive = _textFindDlg.CaseSensitive,
+                        TextToFind = _textFindDlg.TextToFind,
                         TextToReplace = null,
                         Mode = dirUp ? FindReplaceMode.FindPrev : FindReplaceMode.FindNext,
                     };
@@ -655,7 +667,7 @@ namespace Notepad.NET
 
         private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            if ((e.KeyboardDevice.Modifiers & (ModifierKeys.Control | ModifierKeys.Alt)) == ModifierKeys.Control)
             {
                 switch (e.Key)
                 {

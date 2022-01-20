@@ -10,13 +10,13 @@
     <Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FocusManager.FocusedElement="{Binding ElementName=TextBox_FindText}">
         <Label Content="{x:Static p:Resources.FindDlgFind}" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" Target="{Binding ElementName=TextBox_FindText}" />
         <TextBox x:Name="TextBox_FindText" HorizontalAlignment="Left" Height="24" Margin="80,14,0,0" VerticalAlignment="Top" Width="268" TextWrapping="NoWrap" VerticalContentAlignment="Center" TextChanged="TextBox_FindText_TextChanged"/>
+        <Label Content="{x:Static p:Resources.ReplaceDlgReplaceTo}" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Target="{Binding ElementName=TextBox_ReplaceTo}" />
+        <TextBox x:Name="TextBox_ReplaceTo" HorizontalAlignment="Left" Height="24" Margin="80,43,0,0" VerticalAlignment="Top" Width="268" TextWrapping="NoWrap" VerticalContentAlignment="Center" TextChanged="TextBox_FindText_TextChanged"/>
         <CheckBox x:Name="CheckBox_CaseSens" Content="{x:Static p:Resources.FindDlgCaseSens}" HorizontalAlignment="Left" Margin="10,0,0,10.4" Height="15" VerticalAlignment="Bottom"/>
         <Button x:Name="Button_FindNext" Content="{x:Static p:Resources.FindDlgFindNext}" Margin="0,14,9.6,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="116" IsDefault="True" Click="Button_FindNext_Click" IsEnabled="False"/>
         <Button x:Name="Button_Replace" Content="{x:Static p:Resources.ReplaceDlgReplace}" Margin="0,43,9.6,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="116" Click="Button_Replace_Click" IsEnabled="False"/>
         <Button x:Name="Button_ReplaceAll" Content="{x:Static p:Resources.ReplaceDlgReplaceAll}" Margin="0,72,9.6,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="116" Click="Button_ReplaceAll_Click" IsEnabled="False"/>
         <Button x:Name="Button_Cancel" Content="{x:Static p:Resources.FindDlgCancel}" Margin="0,101,9.6,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Right" Width="116" IsCancel="True" Click="Button_Cancel_Click"/>
-        <Label Content="{x:Static p:Resources.ReplaceDlgReplaceTo}" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Target="{Binding ElementName=TextBox_ReplaceTo}" />
-        <TextBox x:Name="TextBox_ReplaceTo" HorizontalAlignment="Left" Height="24" Margin="80,43,0,0" VerticalAlignment="Top" Width="268" TextWrapping="NoWrap" VerticalContentAlignment="Center" TextChanged="TextBox_FindText_TextChanged"/>
 
     </Grid>
 </Window>

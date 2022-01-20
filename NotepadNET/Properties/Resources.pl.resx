@@ -232,7 +232,7 @@
     <value>zmiany w tekście</value>
   </data>
   <data name="NoFile" xml:space="preserve">
-    <value>[Bez pliku]</value>
+    <value>[bez nazwy]</value>
   </data>
   <data name="OpenFileTitle" xml:space="preserve">
     <value>Otwieranie pliku</value>

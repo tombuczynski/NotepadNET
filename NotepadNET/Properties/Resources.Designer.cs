@@ -403,7 +403,7 @@ namespace Notepad.NET.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [No file].
+        ///   Looks up a localized string similar to [unnamed].
         /// </summary>
         public static string NoFile {
             get {

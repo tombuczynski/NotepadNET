@@ -232,7 +232,7 @@
     <value>text modified</value>
   </data>
   <data name="NoFile" xml:space="preserve">
-    <value>[No file]</value>
+    <value>[unnamed]</value>
   </data>
   <data name="OpenFileTitle" xml:space="preserve">
     <value>Open File</value>

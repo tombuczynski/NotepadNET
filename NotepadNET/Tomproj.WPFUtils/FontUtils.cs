@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -28,6 +23,7 @@ namespace Tomproj.WPFUtils
                 {
                     if (Decorations == null)
                         return false;
+
                     return Decorations.Contains(TextDecorations.Underline[0]);
                 }
                 set
@@ -107,15 +103,18 @@ namespace Tomproj.WPFUtils
                 Decorations = null,
             };
 
-            public static Font ExtractFrom(Control c) => new Font()
+            public static Font ExtractFrom(Control c)
             {
-                Family = c.FontFamily,
-                SizePx = c.FontSize,
-                Weight = c.FontWeight,
-                Style = c.FontStyle,
-                ForegroundColor = (c.Foreground as SolidColorBrush)?.Color ?? SystemColors.WindowTextColor,
-                Decorations = (c as TextBox)?.TextDecorations,
-            };
+                return new Font()
+                {
+                    Family = c.FontFamily,
+                    SizePx = c.FontSize,
+                    Weight = c.FontWeight,
+                    Style = c.FontStyle,
+                    ForegroundColor = (c.Foreground as SolidColorBrush)?.Color ?? SystemColors.WindowTextColor,
+                    Decorations = (c as TextBox)?.TextDecorations,
+                };
+            }
 
             public void ApplyTo(Control c)
             {
@@ -125,9 +124,9 @@ namespace Tomproj.WPFUtils
                 c.FontStyle = Style;
                 c.Foreground = ForegroundBrush;
 
-                if (c is TextBox)
+                if (c is TextBox tb)
                 {
-                    ((TextBox)c).TextDecorations = Decorations;
+                    tb.TextDecorations = Decorations;
                 }
             }
 

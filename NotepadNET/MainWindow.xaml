@@ -29,7 +29,7 @@
         <Style x:Key="MenuItemEnabled" TargetType="MenuItem">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Opacity" Value="0.4"></Setter>
+                    <Setter Property="Opacity" Value="0.6"></Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -122,13 +122,14 @@
             <StatusBarItem HorizontalAlignment="Left">
                 <TextBlock x:Name="StatusBarFileName" Text=" "/>
             </StatusBarItem>
-            <Separator Margin="0"/>
+            <Separator/>
             <StatusBarItem>
                 <TextBlock x:Name="StatusBarModified" Text=" " FontWeight="Bold"/>
             </StatusBarItem>
         </StatusBar>
         <TextBox x:Name="Editor" AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap" 
-                 VerticalScrollBarVisibility="Auto"
-                 HorizontalScrollBarVisibility="Auto" TextChanged="Editor_TextChanged" SelectionChanged="Editor_SelectionChanged" IsInactiveSelectionHighlightEnabled="True" SelectionBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" SelectionOpacity="0.45" PreviewMouseWheel="Editor_PreviewMouseWheel" />
+                 VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
+                 TextChanged="Editor_TextChanged" SelectionChanged="Editor_SelectionChanged" PreviewMouseWheel="Editor_PreviewMouseWheel"
+                 IsInactiveSelectionHighlightEnabled="True" SelectionBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" SelectionOpacity="0.45"  />
     </DockPanel>
 </Window>

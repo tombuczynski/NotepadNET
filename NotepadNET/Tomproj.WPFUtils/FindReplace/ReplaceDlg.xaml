@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Tomproj.WPFUtils.FindReplace"
         xmlns:p="clr-namespace:Notepad.NET.Properties"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.ReplaceDlgTitle}" Height="170.256" Width="487.896" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="{x:Static p:Resources.ReplaceDlgTitle}" Height="170.256" Width="494.904" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FocusManager.FocusedElement="{Binding ElementName=TextBox_FindText}">
         <Label Content="{x:Static p:Resources.FindDlgFind}" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" Target="{Binding ElementName=TextBox_FindText}" />
         <TextBox x:Name="TextBox_FindText" HorizontalAlignment="Left" Height="24" Margin="80,14,0,0" VerticalAlignment="Top" Width="268" TextWrapping="NoWrap" VerticalContentAlignment="Center" TextChanged="TextBox_FindText_TextChanged"/>

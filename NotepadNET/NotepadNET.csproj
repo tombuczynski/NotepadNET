@@ -75,6 +75,7 @@
     </Compile>
     <Compile Include="Tomproj.WPFUtils\FolderUtils.cs" />
     <Compile Include="Tomproj.WPFUtils\FontUtils.cs" />
+    <Compile Include="Tomproj.WPFUtils\ListBoxUtils.cs" />
     <Compile Include="Tomproj.WPFUtils\PrintUtils.cs" />
     <Compile Include="Tomproj.WPFUtils\FindReplace\FindReplace.cs" />
     <Compile Include="Tomproj.WPFUtils\TaskBar\TaskBarIcon.cs" />

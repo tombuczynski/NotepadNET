@@ -20,7 +20,7 @@ namespace Tomproj.WPFUtils.TaskBar
         public IconAction Action { get; }
     }
 
-    class TaskBarIcon : IDisposable
+    public class TaskBarIcon : IDisposable
     {
         private readonly System.Windows.Forms.NotifyIcon NIcon;
         private ContextMenu CxMenu = null;
